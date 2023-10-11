@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Nikita Shumakov](https://up.htmlacademy.ru/react/14/user/305185).
-* Наставник: `Неизвестно`.
+* Наставник: [Arthur Litovko](https://htmlacademy.ru/profile/id6927).
 
 ---
 
