@@ -6,16 +6,20 @@ import PrivateRoute from './private-route';
 import LoginPage from '../pages/login-page/login-page';
 import { AppRoute } from '../const';
 import FavoritesPage from '../pages/favorites-page/favorites-page';
+import { Offer } from '../types/offers';
+import { getOfferPreviews } from '../utils/offers';
 
 type AppProps = {
-  offersCount: number;
+  offers: Offer[];
 }
 
-function App({ offersCount }: AppProps) {
+function App({ offers }: AppProps) {
+  const offerPreviews = getOfferPreviews(offers);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<MainPage offersCount={offersCount} />} />
+        <Route path={AppRoute.Root} element={<MainPage offers={offerPreviews} />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Favorites} element={
           <PrivateRoute>
