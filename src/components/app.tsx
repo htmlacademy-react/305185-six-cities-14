@@ -27,7 +27,7 @@ function App({ offers }: AppProps) {
           </PrivateRoute>
         }
         />
-        <Route path={AppRoute.Offer} element={<OfferPage />} />
+        <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offers={offers} />} />
         <Route path="*" element={<NotFoundPage />}/>
       </Routes>
     </BrowserRouter>
