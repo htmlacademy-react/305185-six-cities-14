@@ -22,8 +22,8 @@ function App({ offers }: AppProps) {
         <Route path={AppRoute.Root} element={<MainPage offers={offerPreviews} />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Favorites} element={
-          <PrivateRoute>
-            <FavoritesPage />
+          <PrivateRoute hasAccess>
+            <FavoritesPage offers={offers} />
           </PrivateRoute>
         }
         />
