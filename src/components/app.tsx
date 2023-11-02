@@ -11,7 +11,7 @@ import { getOfferPreviews } from '../utils/offers';
 
 type AppProps = {
   offers: Offer[];
-}
+};
 
 function App({ offers }: AppProps) {
   const offerPreviews = getOfferPreviews(offers);
@@ -19,16 +19,24 @@ function App({ offers }: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<MainPage offers={offerPreviews} />} />
-        <Route path={AppRoute.Login} element={<LoginPage />} />
-        <Route path={AppRoute.Favorites} element={
-          <PrivateRoute hasAccess>
-            <FavoritesPage offers={offers} />
-          </PrivateRoute>
-        }
+        <Route
+          path={AppRoute.Root}
+          element={<MainPage offers={offerPreviews} />}
         />
-        <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offers={offers} />} />
-        <Route path="*" element={<NotFoundPage />}/>
+        <Route path={AppRoute.Login} element={<LoginPage />} />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute hasAccess>
+              <FavoritesPage offers={offers} />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.Offer}/:id`}
+          element={<OfferPage offers={offers} />}
+        />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

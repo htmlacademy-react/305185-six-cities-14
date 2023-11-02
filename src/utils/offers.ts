@@ -1,15 +1,7 @@
 import { Offer, OfferPreview } from '../types/offers';
 
 export function getOfferPreview(offer: Offer): OfferPreview {
-  const {
-    id,
-    isPremium,
-    previewImage,
-    price,
-    rating,
-    title,
-    type,
-  } = offer;
+  const { id, isPremium, previewImage, price, rating, title, type } = offer;
 
   return {
     id,

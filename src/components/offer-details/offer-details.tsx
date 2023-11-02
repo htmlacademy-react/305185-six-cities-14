@@ -53,7 +53,11 @@ function OfferDetails({ offer }: OfferDetailsProps) {
             </div>
             <span className="offer__rating-value rating__value">{rating}</span>
           </div>
-          <Features type={capitalizeFirstLetter(type)} bedrooms={bedrooms} maxAdults={maxAdults} />
+          <Features
+            type={capitalizeFirstLetter(type)}
+            bedrooms={bedrooms}
+            maxAdults={maxAdults}
+          />
           <div className="offer__price">
             <b className="offer__price-value">&euro;{price}</b>
             <span className="offer__price-text">&nbsp;night</span>
