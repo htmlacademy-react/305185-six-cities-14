@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { OfferPreview } from '../../types/offers';
-import PlaceCard from '../place-card/place-card';
+import { PlaceCard } from '../place-card/place-card';
 
 type PlaceCardProps = {
   offers: OfferPreview[];
 };
 
-function PlaceCardList({ offers }: PlaceCardProps) {
+export function PlaceCardList({ offers }: PlaceCardProps) {
   const [, setHoveredOfferId] = useState<OfferPreview['id'] | null>(null);
 
-  function onCardHoverHandler(offerId: OfferPreview['id'] | null) {
+  function cardHoverHandler(offerId: OfferPreview['id'] | null) {
     setHoveredOfferId(offerId);
   }
 
@@ -52,7 +52,7 @@ function PlaceCardList({ offers }: PlaceCardProps) {
               <PlaceCard
                 key={offer.id}
                 offer={offer}
-                onCardHover={onCardHoverHandler}
+                onCardHover={cardHoverHandler}
               />
             ))}
           </div>
@@ -64,5 +64,3 @@ function PlaceCardList({ offers }: PlaceCardProps) {
     </div>
   );
 }
-
-export default PlaceCardList;

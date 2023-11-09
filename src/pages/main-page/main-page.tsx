@@ -1,11 +1,11 @@
-import PlaceCardList from '../../components/place-card-list/place-card-list';
+import { PlaceCardList } from '../../components/place-card-list/place-card-list';
 import { OfferPreview } from '../../types/offers';
 
 type MainPageProps = {
   offers: OfferPreview[];
 };
 
-function MainPage({ offers }: MainPageProps) {
+export function MainPage({ offers }: MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -90,5 +90,3 @@ function MainPage({ offers }: MainPageProps) {
     </div>
   );
 }
-
-export default MainPage;

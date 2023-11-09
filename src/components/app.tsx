@@ -1,11 +1,14 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from '../pages/main-page/main-page';
-import NotFoundPage from '../pages/not-found-page/not-found-page';
-import OfferPage from '../pages/offer-page/offer-page';
-import PrivateRoute from './private-route';
-import LoginPage from '../pages/login-page/login-page';
+
+import {
+  FavoritesPage,
+  LoginPage,
+  MainPage,
+  NotFoundPage,
+  OfferPage,
+} from '../pages/';
+import { PrivateRoute } from './private-route';
 import { AppRoute } from '../const';
-import FavoritesPage from '../pages/favorites-page/favorites-page';
 import { Offer } from '../types/offers';
 import { getOfferPreviews } from '../utils/offers';
 
@@ -13,7 +16,7 @@ type AppProps = {
   offers: Offer[];
 };
 
-function App({ offers }: AppProps) {
+export function App({ offers }: AppProps) {
   const offerPreviews = getOfferPreviews(offers);
 
   return (
@@ -41,5 +44,3 @@ function App({ offers }: AppProps) {
     </BrowserRouter>
   );
 }
-
-export default App;

@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
-import Rating from './components/rating/rating';
+import { Rating } from './components/rating/rating';
 
-function ReviewForm() {
+export function ReviewForm() {
   const MIN_COMMENT_LENGTH = 50;
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
@@ -49,5 +49,3 @@ function ReviewForm() {
     </form>
   );
 }
-
-export default ReviewForm;

@@ -6,7 +6,7 @@ type HostProps = {
   description: Offer['description'];
 };
 
-function Host({ host, description }: HostProps): JSX.Element {
+export function Host({ host, description }: HostProps): JSX.Element {
   return (
     <div className="offer__host">
       <h2 className="offer__host-title">Meet the host</h2>
@@ -35,4 +35,3 @@ function Host({ host, description }: HostProps): JSX.Element {
     </div>
   );
 }
-export default Host;

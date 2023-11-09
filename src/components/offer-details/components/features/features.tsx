@@ -6,7 +6,7 @@ type FeaturesProps = {
   maxAdults: Offer['maxAdults'];
 };
 
-function Features({ type, bedrooms, maxAdults }: FeaturesProps): JSX.Element {
+export function Features({ type, bedrooms, maxAdults }: FeaturesProps): JSX.Element {
   return (
     <ul className="offer__features">
       <li className="offer__feature offer__feature--entire">{type}</li>
@@ -19,5 +19,3 @@ function Features({ type, bedrooms, maxAdults }: FeaturesProps): JSX.Element {
     </ul>
   );
 }
-
-export default Features;

@@ -4,7 +4,7 @@ type GoodsProps = {
   goods: Offer['goods'];
 };
 
-function Goods({ goods }: GoodsProps) {
+export function Goods({ goods }: GoodsProps) {
   return (
     <div className="offer__inside">
       <h2 className="offer__inside-title">What&apos;s inside</h2>
@@ -18,5 +18,3 @@ function Goods({ goods }: GoodsProps) {
     </div>
   );
 }
-
-export default Goods;

@@ -1,11 +1,11 @@
-import PlaceCard from '../../components/place-card/place-card';
+import { PlaceCard } from '../../components/place-card/place-card';
 import { Offer } from '../../types/offers';
 
 type FavoritesPageProps = {
   offers: Offer[];
 };
 
-function FavoritesPage({ offers }: FavoritesPageProps) {
+export function FavoritesPage({ offers }: FavoritesPageProps) {
   // normalizes offers by city key
   const getOffersByCityKey = (favOffers: Offer[]) => {
     const offersByCityKey: Record<string, Offer[]> = {};
@@ -113,5 +113,3 @@ function FavoritesPage({ offers }: FavoritesPageProps) {
     </div>
   );
 }
-
-export default FavoritesPage;
