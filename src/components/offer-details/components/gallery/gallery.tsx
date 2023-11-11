@@ -4,7 +4,7 @@ type GalleryProps = {
   imageUrls: Offer['images'];
 };
 
-function Gallery({ imageUrls }: GalleryProps) {
+export function Gallery({ imageUrls }: GalleryProps) {
   return (
     <div className="offer__gallery">
       {imageUrls.map((imageUrl) => (
@@ -15,5 +15,3 @@ function Gallery({ imageUrls }: GalleryProps) {
     </div>
   );
 }
-
-export default Gallery;

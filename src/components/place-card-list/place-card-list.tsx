@@ -1,15 +1,21 @@
 import { useState } from 'react';
 import { OfferPreview } from '../../types/offers';
-import PlaceCard from '../place-card/place-card';
+import { PlaceCard } from '../place-card/place-card';
+import Map from '../map/map';
+import { CityLocation } from '../../const';
 
 type PlaceCardProps = {
   offers: OfferPreview[];
 };
 
-function PlaceCardList({ offers }: PlaceCardProps) {
-  const [, setHoveredOfferId] = useState<OfferPreview['id'] | null>(null);
+export function PlaceCardList({ offers }: PlaceCardProps) {
+  const [hoveredOfferId, setHoveredOfferId] = useState<
+    OfferPreview['id'] | null
+  >(null);
+  const points = offers.map(({ id, location }) => ({ offerId: id, location }));
+  const currentCityLocation = CityLocation.Amsterdam;
 
-  function onCardHoverHandler(offerId: OfferPreview['id'] | null) {
+  function cardHoverHandler(offerId: OfferPreview['id'] | null) {
     setHoveredOfferId(offerId);
   }
 
@@ -52,17 +58,20 @@ function PlaceCardList({ offers }: PlaceCardProps) {
               <PlaceCard
                 key={offer.id}
                 offer={offer}
-                onCardHover={onCardHoverHandler}
+                onCardHover={cardHoverHandler}
               />
             ))}
           </div>
         </section>
         <div className="cities__right-section">
-          <section className="cities__map map"></section>
+          <Map
+            points={points}
+            location={currentCityLocation}
+            selectedPoint={hoveredOfferId}
+            className="cities__map"
+          />
         </div>
       </div>
     </div>
   );
 }
-
-export default PlaceCardList;

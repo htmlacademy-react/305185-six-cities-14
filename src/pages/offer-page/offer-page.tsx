@@ -1,15 +1,16 @@
 import { Navigate, useParams } from 'react-router-dom';
+
 import { Offer } from '../../types/offers';
 import { AppRoute } from '../../const';
-import OfferDetails from '../../components/offer-details/offer-details';
+import { OfferDetails } from '../../components/offer-details/offer-details';
 
 type OfferPageProps = {
   offers: Offer[];
 };
 
-function OfferPage({ offers }: OfferPageProps) {
+export function OfferPage({ offers }: OfferPageProps) {
   const { id } = useParams();
-  const offer = offers.find((item) => item.id === Number(id));
+  const offer = offers.find((item) => item.id === id);
 
   if (!offer) {
     return <Navigate to={AppRoute.NotFound} />;
@@ -214,5 +215,3 @@ function OfferPage({ offers }: OfferPageProps) {
     </div>
   );
 }
-
-export default OfferPage;

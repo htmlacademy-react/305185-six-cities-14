@@ -12,7 +12,7 @@ const RATING_MAP = {
   5: 'perfect',
 };
 
-function rating({ onChange }: RatingProps) {
+export function Rating({ onChange }: RatingProps) {
   return (
     <div className="reviews__rating-form form__rating">
       {Object.entries(RATING_MAP)
@@ -41,5 +41,3 @@ function rating({ onChange }: RatingProps) {
     </div>
   );
 }
-
-export default rating;

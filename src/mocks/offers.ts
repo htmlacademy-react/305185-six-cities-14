@@ -2,16 +2,37 @@ import { Offer } from '../types/offers';
 
 export const offers: Offer[] = [
   {
-    id: 1,
+    id: 'c2b513bd-8bfa-4f11-a6cb-df88708f5c1a',
+    title: 'Canal View Prinsengracht',
+    type: 'apartment',
+    price: 302,
     city: {
-      name: 'Dusseldorf',
+      name: 'Amsterdam',
       location: {
-        latitude: 51.225402,
-        longitude: 6.776314,
+        latitude: 52.37454,
+        longitude: 4.897976,
         zoom: 13
       }
     },
-    previewImage: 'https://14.react.pages.academy/static/offer/3.jpg',
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 1.8,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    bedrooms: 3,
+    goods: [
+      'Laptop friendly workspace',
+      'Breakfast'
+    ],
+    host: {
+      name: 'Angelina',
+      isPro: true,
+      avatarUrl: 'img/avatar-angelina.jpg'
+    },
     images: [
       'https://14.react.pages.academy/static/offer/16.jpg',
       'https://14.react.pages.academy/static/offer/13.jpg',
@@ -28,33 +49,13 @@ export const offers: Offer[] = [
       'https://14.react.pages.academy/static/offer/10.jpg',
       'https://14.react.pages.academy/static/offer/5.jpg'
     ],
-    title: 'Waterfront with extraordinary view',
-    isFavorite: false,
-    isPremium: false,
-    rating: 4.8,
-    type: 'room',
-    bedrooms: 1,
-    maxAdults: 2,
-    price: 142,
-    goods: [
-      'Laptop friendly workspace',
-      'Breakfast'
-    ],
-    host: {
-      id: 25,
-      name: 'Angelina',
-      isPro: true,
-      avatarUrl: 'img/avatar-angelina.jpg'
-    },
-    description: 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
-    location: {
-      latitude: 51.237402,
-      longitude: 6.779314,
-      zoom: 16
-    },
+    maxAdults: 2
   },
   {
-    id: 2,
+    id: 'cec1efa9-66e5-42df-981e-cd3b20d1cfe3',
+    title: 'The Pondhouse - A Magical Place',
+    type: 'room',
+    price: 163,
     city: {
       name: 'Amsterdam',
       location: {
@@ -63,7 +64,26 @@ export const offers: Offer[] = [
         zoom: 13
       }
     },
-    previewImage: 'https://14.react.pages.academy/static/offer/14.jpg',
+    location: {
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: false,
+    rating: 3.6,
+    description: 'This is a place for dreamers to reset, reflect, and create. Designed with a \'slow\' pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.',
+    bedrooms: 3,
+    goods: [
+      'Laptop friendly workspace',
+      'Breakfast',
+      'Washer'
+    ],
+    host: {
+      name: 'Angelina',
+      isPro: true,
+      avatarUrl: 'img/avatar-angelina.jpg'
+    },
     images: [
       'https://14.react.pages.academy/static/offer/8.jpg',
       'https://14.react.pages.academy/static/offer/7.jpg',
@@ -80,43 +100,48 @@ export const offers: Offer[] = [
       'https://14.react.pages.academy/static/offer/5.jpg',
       'https://14.react.pages.academy/static/offer/13.jpg'
     ],
-    title: 'House in countryside',
+    maxAdults: 2
+  },
+  {
+    id: '350514cb-bf97-4e8c-b43e-a9b0db6b64aa',
+    title: 'Penthouse, 4-5 rooms + 5 balconies',
+    type: 'apartment',
+    price: 497,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 16
+    },
     isFavorite: false,
     isPremium: false,
-    rating: 2.8,
-    type: 'room',
-    bedrooms: 1,
-    maxAdults: 2,
-    price: 144,
+    rating: 2.2,
+    description: 'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
+    bedrooms: 3,
     goods: [
+      'Washing machine',
       'Laptop friendly workspace',
+      'Towels',
+      'Baby seat',
+      'Air conditioning',
+      'Coffee machine',
+      'Fridge',
       'Breakfast',
-      'Washer'
+      'Washer',
+      'Dishwasher'
     ],
     host: {
-      id: 25,
       name: 'Angelina',
       isPro: true,
       avatarUrl: 'img/avatar-angelina.jpg'
     },
-    description: 'This is a place for dreamers to reset, reflect, and create. Designed with a \'slow\' pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.',
-    location: {
-      latitude: 52.385540000000006,
-      longitude: 4.902976,
-      zoom: 16
-    },
-  },
-  {
-    id: 3,
-    city: {
-      name: 'Brussels',
-      location: {
-        latitude: 50.846557,
-        longitude: 4.351697,
-        zoom: 13
-      }
-    },
-    previewImage: 'https://14.react.pages.academy/static/offer/3.jpg',
     images: [
       'https://14.react.pages.academy/static/offer/9.jpg',
       'https://14.react.pages.academy/static/offer/3.jpg',
@@ -133,41 +158,13 @@ export const offers: Offer[] = [
       'https://14.react.pages.academy/static/offer/4.jpg',
       'https://14.react.pages.academy/static/offer/12.jpg'
     ],
-    title: 'Loft Studio in the Central Area',
-    isFavorite: false,
-    isPremium: false,
-    rating: 2.9,
-    type: 'room',
-    bedrooms: 1,
-    maxAdults: 2,
-    price: 257,
-    goods: [
-      'Washing machine',
-      'Laptop friendly workspace',
-      'Towels',
-      'Baby seat',
-      'Air conditioning',
-      'Coffee machine',
-      'Fridge',
-      'Breakfast',
-      'Washer',
-      'Dishwasher'
-    ],
-    host: {
-      id: 25,
-      name: 'Angelina',
-      isPro: true,
-      avatarUrl: 'img/avatar-angelina.jpg'
-    },
-    description: 'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
-    location: {
-      latitude: 50.852557,
-      longitude: 4.3376969999999995,
-      zoom: 16
-    },
+    maxAdults: 2
   },
   {
-    id: 4,
+    id: 'f5544657-942c-4700-b6b7-b3ef49a8ad2c',
+    title: 'Amazing and Extremely Central Flat',
+    type: 'apartment',
+    price: 344,
     city: {
       name: 'Amsterdam',
       location: {
@@ -176,7 +173,27 @@ export const offers: Offer[] = [
         zoom: 13
       }
     },
-    previewImage: 'https://14.react.pages.academy/static/offer/6.jpg',
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 1.2,
+    description: 'Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.',
+    bedrooms: 4,
+    goods: [
+      'Breakfast',
+      'Washer',
+      'Laptop friendly workspace',
+      'Air conditioning'
+    ],
+    host: {
+      name: 'Angelina',
+      isPro: true,
+      avatarUrl: 'img/avatar-angelina.jpg'
+    },
     images: [
       'https://14.react.pages.academy/static/offer/15.jpg',
       'https://14.react.pages.academy/static/offer/18.jpg',
@@ -193,31 +210,6 @@ export const offers: Offer[] = [
       'https://14.react.pages.academy/static/offer/13.jpg',
       'https://14.react.pages.academy/static/offer/5.jpg'
     ],
-    title: 'Nice, cozy, warm big bed apartment',
-    isFavorite: false,
-    isPremium: false,
-    rating: 3.2,
-    type: 'hotel',
-    bedrooms: 4,
-    maxAdults: 4,
-    price: 330,
-    goods: [
-      'Breakfast',
-      'Washer',
-      'Laptop friendly workspace',
-      'Air conditioning'
-    ],
-    host: {
-      id: 25,
-      name: 'Angelina',
-      isPro: true,
-      avatarUrl: 'img/avatar-angelina.jpg'
-    },
-    description: 'Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.',
-    location: {
-      latitude: 52.361540000000005,
-      longitude: 4.883976,
-      zoom: 16
-    },
-  }
+    maxAdults: 4
+  },
 ];

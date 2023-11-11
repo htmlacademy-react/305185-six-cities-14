@@ -18,7 +18,7 @@ const CARD_SIZE_MAP = {
   large: { width: 260, height: 200 },
 };
 
-function PlaceCard({
+export function PlaceCard({
   offer,
   size = 'large',
   blockType = 'cities',
@@ -84,5 +84,3 @@ function PlaceCard({
     </article>
   );
 }
-
-export default PlaceCard;

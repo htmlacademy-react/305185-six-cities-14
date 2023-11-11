@@ -1,24 +1,27 @@
 // TODO: Break the types into separate files if needed in the future
-export type Offer = {
-  id: number;
+export type OfferPreview = {
+  id: string;
   title: string;
+  type: string;
+  price: number;
   city: OfferCity;
-  previewImage: string;
-  images: string[];
+  location: OfferLocation;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  type: string;
-  bedrooms: number;
-  maxAdults: number;
-  price: number;
-  goods: string[];
-  host: OfferHost;
-  description: string;
-  location: OfferLocation;
+  previewImage: string;
 };
 
-type OfferLocation = {
+export type Offer = Omit<OfferPreview, 'previewImage'> & {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: OfferHost;
+  images: string[];
+  maxAdults: number;
+};
+
+export type OfferLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
@@ -27,16 +30,11 @@ type OfferLocation = {
 type OfferCity = {
   name: string;
   location: OfferLocation;
-};
+}
 
 type OfferHost = {
-  id: number;
   name: string;
-  isPro: boolean;
   avatarUrl: string;
+  isPro: boolean;
 };
 
-export type OfferPreview = Pick<
-  Offer,
-  'id' | 'isPremium' | 'previewImage' | 'price' | 'rating' | 'title' | 'type'
->;
