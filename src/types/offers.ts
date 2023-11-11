@@ -21,7 +21,7 @@ export type Offer = Omit<OfferPreview, 'previewImage'> & {
   maxAdults: number;
 };
 
-type OfferLocation = {
+export type OfferLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
