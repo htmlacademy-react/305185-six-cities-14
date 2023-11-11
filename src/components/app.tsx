@@ -9,15 +9,14 @@ import {
 } from '../pages/';
 import { PrivateRoute } from './private-route';
 import { AppRoute } from '../const';
-import { Offer } from '../types/offers';
-import { getOfferPreviews } from '../utils/offers';
+import { Offer, OfferPreview } from '../types/offers';
 
 type AppProps = {
   offers: Offer[];
+  offerPreviews: OfferPreview[];
 };
 
-export function App({ offers }: AppProps) {
-  const offerPreviews = getOfferPreviews(offers);
+export function App({ offers, offerPreviews }: AppProps) {
 
   return (
     <BrowserRouter>
@@ -31,7 +30,7 @@ export function App({ offers }: AppProps) {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute hasAccess>
-              <FavoritesPage offers={offers} />
+              <FavoritesPage offers={offerPreviews} />
             </PrivateRoute>
           }
         />

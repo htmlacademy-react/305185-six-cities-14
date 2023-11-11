@@ -10,7 +10,7 @@ type OfferPageProps = {
 
 export function OfferPage({ offers }: OfferPageProps) {
   const { id } = useParams();
-  const offer = offers.find((item) => item.id === Number(id));
+  const offer = offers.find((item) => item.id === id);
 
   if (!offer) {
     return <Navigate to={AppRoute.NotFound} />;
