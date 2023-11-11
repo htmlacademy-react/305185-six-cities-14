@@ -1,14 +1,14 @@
 import { PlaceCard } from '../../components/place-card/place-card';
-import { Offer } from '../../types/offers';
+import { OfferPreview } from '../../types/offers';
 
 type FavoritesPageProps = {
-  offers: Offer[];
+  offers: OfferPreview[];
 };
 
 export function FavoritesPage({ offers }: FavoritesPageProps) {
   // normalizes offers by city key
-  const getOffersByCityKey = (favOffers: Offer[]) => {
-    const offersByCityKey: Record<string, Offer[]> = {};
+  const getOffersByCityKey = (favOffers: OfferPreview[]) => {
+    const offersByCityKey: Record<string, OfferPreview[]> = {};
 
     favOffers.forEach((favorite) => {
       const { city } = favorite;
@@ -18,7 +18,7 @@ export function FavoritesPage({ offers }: FavoritesPageProps) {
 
     // and sorts them alphabetically
     const sortedKeys = Object.keys(offersByCityKey).sort();
-    const sortedOffersByCityKey: Record<string, Offer[]> = {};
+    const sortedOffersByCityKey: Record<string, OfferPreview[]> = {};
     sortedKeys.forEach((key) => {
       sortedOffersByCityKey[key] = offersByCityKey[key];
     });

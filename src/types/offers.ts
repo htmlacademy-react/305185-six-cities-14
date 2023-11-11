@@ -38,5 +38,5 @@ type OfferHost = {
 
 export type OfferPreview = Pick<
   Offer,
-  'id' | 'isPremium' | 'previewImage' | 'price' | 'rating' | 'title' | 'type'
+  'id' | 'isPremium' | 'previewImage' | 'price' | 'rating' | 'title' | 'type' | 'city'
 >;
