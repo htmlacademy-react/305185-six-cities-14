@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { OfferPreview } from '../../types/offers';
 import { PlaceCard } from '../place-card/place-card';
-import Map from '../map/map';
+import { Map } from '../map/map';
 import { CityLocation } from '../../const';
 
 type CitiesProps = {

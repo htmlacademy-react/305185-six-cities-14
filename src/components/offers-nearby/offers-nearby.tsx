@@ -22,4 +22,3 @@ export function OffersNearby({ offers }: OffersNearbyProps) {
     </section>
   );
 }
-export default OffersNearby;

@@ -64,5 +64,3 @@ export function Map({ location, points, selectedPoint, className }: MapProps) {
 
   return <section className={`map ${className}`} ref={mapRef}></section>;
 }
-
-export default Map;
