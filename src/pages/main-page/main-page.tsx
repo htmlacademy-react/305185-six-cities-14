@@ -1,4 +1,4 @@
-import { PlaceCardList } from '../../components/place-card-list/place-card-list';
+import { Cities } from '../../components/cities/cities';
 import { OfferPreview } from '../../types/offers';
 
 type MainPageProps = {
@@ -85,7 +85,7 @@ export function MainPage({ offers }: MainPageProps) {
             </ul>
           </section>
         </div>
-        <PlaceCardList offers={offers} />
+        <Cities offers={offers} />
       </main>
     </div>
   );

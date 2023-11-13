@@ -11,7 +11,7 @@ import { MapPoint } from '../../types/map';
 type MapProps = {
   location: OfferLocation;
   points: MapPoint[];
-  selectedPoint: OfferPreview['id'] | null;
+  selectedPoint?: OfferPreview['id'] | null;
   className?: string;
 };
 

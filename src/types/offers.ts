@@ -21,6 +21,17 @@ export type Offer = Omit<OfferPreview, 'previewImage'> & {
   maxAdults: number;
 };
 
+export type OfferReview = Pick<Offer, 'rating'> & {
+  id: string;
+  date: string;
+  user: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  comment: string;
+};
+
 export type OfferLocation = {
   latitude: number;
   longitude: number;

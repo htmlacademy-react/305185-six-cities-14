@@ -36,7 +36,7 @@ export function App({ offers, offerPreviews }: AppProps) {
         />
         <Route
           path={`${AppRoute.Offer}/:id`}
-          element={<OfferPage offers={offers} />}
+          element={<OfferPage offers={offers} offerPreviews={offerPreviews} />}
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

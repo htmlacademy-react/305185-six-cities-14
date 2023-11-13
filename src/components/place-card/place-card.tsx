@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
+
 import { AppRoute } from '../../const';
 import { OfferPreview } from '../../types/offers';
 import { getRatingInPercent } from '../../utils/offers';
+import { capitalizeFirstLetter } from '../../utils/common';
 
 type CardImageSize = 'small' | 'large';
-type CardBlockType = 'cities' | 'favorites';
+type CardBlockType = 'cities' | 'favorites' | 'near-places';
 
 type PlaceCardProps = {
   offer: OfferPreview;
@@ -79,7 +81,7 @@ export function PlaceCard({
         <h2 className="place-card__name">
           <Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );
