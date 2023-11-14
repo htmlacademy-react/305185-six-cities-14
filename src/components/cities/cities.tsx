@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { OfferPreview } from '../../types/offers';
 import { PlaceCard } from '../place-card/place-card';
-import Map from '../map/map';
+import { Map } from '../map/map';
 import { CityLocation } from '../../const';
 
-type PlaceCardProps = {
+type CitiesProps = {
   offers: OfferPreview[];
 };
 
-export function PlaceCardList({ offers }: PlaceCardProps) {
+export function Cities({ offers }: CitiesProps) {
   const [hoveredOfferId, setHoveredOfferId] = useState<
     OfferPreview['id'] | null
   >(null);
   const points = offers.map(({ id, location }) => ({ offerId: id, location }));
   const currentCityLocation = CityLocation.Amsterdam;
+  const currentCityName = 'Amsterdam';
 
   function cardHoverHandler(offerId: OfferPreview['id'] | null) {
     setHoveredOfferId(offerId);
@@ -25,7 +26,7 @@ export function PlaceCardList({ offers }: PlaceCardProps) {
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">
-            {offers.length} places to stay in Amsterdam
+            {offers.length} places to stay in {currentCityName}
           </b>
           <form className="places__sorting" action="#" method="get">
             <span className="places__sorting-caption">Sort by</span>

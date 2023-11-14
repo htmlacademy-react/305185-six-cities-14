@@ -6,6 +6,7 @@ import { Features } from './components/features/features';
 import { Goods } from './components/goods/goods';
 import { Host } from './components/host/host';
 import { Reviews } from './components/reviews/reviews';
+import { offerReviews } from '../../mocks/';
 
 type OfferDetailsProps = {
   offer: Offer;
@@ -64,10 +65,9 @@ export function OfferDetails({ offer }: OfferDetailsProps) {
           </div>
           <Goods goods={goods} />
           <Host host={host} description={description} />
-          <Reviews />
+          <Reviews className="offer__reviews" reviews={offerReviews} />
         </div>
       </div>
-      <section className="offer__map map"></section>
     </section>
   );
 }

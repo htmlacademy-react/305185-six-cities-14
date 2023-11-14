@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { Rating } from './components/rating/rating';
+import { Rating } from './rating/rating';
 
 export function ReviewForm() {
   const MIN_COMMENT_LENGTH = 50;
