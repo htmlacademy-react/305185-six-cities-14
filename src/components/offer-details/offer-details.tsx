@@ -1,4 +1,4 @@
-import { Offer } from '../../types/offers';
+import { Offer, OfferReview } from '../../types/offers';
 import { capitalizeFirstLetter } from '../../utils/common';
 import { getRatingInPercent } from '../../utils/offers';
 import { Gallery } from './components/gallery/gallery';
@@ -6,13 +6,13 @@ import { Features } from './components/features/features';
 import { Goods } from './components/goods/goods';
 import { Host } from './components/host/host';
 import { Reviews } from './components/reviews/reviews';
-import { offerReviews } from '../../mocks/';
 
 type OfferDetailsProps = {
   offer: Offer;
+  reviews: OfferReview[];
 };
 
-export function OfferDetails({ offer }: OfferDetailsProps) {
+export function OfferDetails({ offer, reviews }: OfferDetailsProps) {
   const {
     isPremium,
     images,
@@ -65,7 +65,7 @@ export function OfferDetails({ offer }: OfferDetailsProps) {
           </div>
           <Goods goods={goods} />
           <Host host={host} description={description} />
-          <Reviews className="offer__reviews" reviews={offerReviews} />
+          <Reviews className="offer__reviews" reviews={reviews} />
         </div>
       </div>
     </section>

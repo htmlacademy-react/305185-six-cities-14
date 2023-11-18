@@ -1,30 +1,44 @@
-import { PlaceCard } from '../../components/place-card/place-card';
-import { OfferPreview } from '../../types/offers';
+import { useEffect } from 'react';
 
-type FavoritesPageProps = {
-  offers: OfferPreview[];
+import { PlaceCard } from '../../components/place-card/place-card';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { OfferPreview } from '../../types/offers';
+import { fetchFavoriteOffers, fetchOffers } from '../../store/actions';
+
+// normalizes offers by city key
+const getOffersByCityKey = (favOffers: OfferPreview[]) => {
+  const offersByCityKey: Record<string, OfferPreview[]> = {};
+
+  favOffers.forEach((favorite) => {
+    const { city } = favorite;
+    offersByCityKey[city.name] = offersByCityKey[city.name] || [];
+    offersByCityKey[city.name].push(favorite);
+  });
+
+  // and sorts them alphabetically
+  const sortedKeys = Object.keys(offersByCityKey).sort();
+  const sortedOffersByCityKey: Record<string, OfferPreview[]> = {};
+  sortedKeys.forEach((key) => {
+    sortedOffersByCityKey[key] = offersByCityKey[key];
+  });
+
+  return sortedOffersByCityKey;
 };
 
-export function FavoritesPage({ offers }: FavoritesPageProps) {
-  // normalizes offers by city key
-  const getOffersByCityKey = (favOffers: OfferPreview[]) => {
-    const offersByCityKey: Record<string, OfferPreview[]> = {};
+export function FavoritesPage() {
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector((state) => state.favoriteOffers);
+  const favoritesByCityKey = getOffersByCityKey(favorites);
 
-    favOffers.forEach((favorite) => {
-      const { city } = favorite;
-      offersByCityKey[city.name] = offersByCityKey[city.name] || [];
-      offersByCityKey[city.name].push(favorite);
-    });
+  useEffect(() => {
+    dispatch(fetchOffers());
+    dispatch(fetchFavoriteOffers());
 
-    // and sorts them alphabetically
-    const sortedKeys = Object.keys(offersByCityKey).sort();
-    const sortedOffersByCityKey: Record<string, OfferPreview[]> = {};
-    sortedKeys.forEach((key) => {
-      sortedOffersByCityKey[key] = offersByCityKey[key];
-    });
+  }, [dispatch]);
 
-    return sortedOffersByCityKey;
-  };
+  if (!favorites) {
+    return 'Loading...';
+  }
 
   return (
     <>
@@ -33,7 +47,7 @@ export function FavoritesPage({ offers }: FavoritesPageProps) {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {Object.entries(getOffersByCityKey(offers)).map(
+              {Object.entries(favoritesByCityKey).map(
                 ([city, cityOffers]) => (
                   <li className="favorites__locations-items" key={city}>
                     <div className="favorites__locations locations locations--current">
