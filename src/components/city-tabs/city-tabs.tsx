@@ -4,20 +4,18 @@ import classNames from 'classnames';
 
 import { CityMap } from '../../const';
 import { OfferCity } from '../../types/offers';
-import { useAppDispatch } from '../../hooks/store';
-import { setActiveCity } from '../../store/actions';
 
 type LocationTabsProps = {
   cities: OfferCity[];
   activeCityName?: string;
+  onChange: (city: OfferCity) => void;
 };
 
 export function CityTabs({
   cities,
   activeCityName = CityMap.Paris.name,
+  onChange,
 }: LocationTabsProps) {
-
-  const dispatch = useAppDispatch();
 
   return (
     <div className="tabs">
@@ -32,7 +30,7 @@ export function CityTabs({
                     'tabs__item--active': name === activeCityName,
                   })}
                   to={name.toLowerCase()}
-                  onClick={() => dispatch(setActiveCity(city))}
+                  onClick={() => onChange(city)}
                 >
                   <span>{name}</span>
                 </Link>

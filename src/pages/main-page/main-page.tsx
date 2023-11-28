@@ -1,41 +1,54 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Cities } from '../../components/cities/cities';
-import { CityMap } from '../../const';
+import { AppRoute, CityMap } from '../../const';
 import { CityTabs } from '../../components/city-tabs/city-tabs';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { fetchOffers, setActiveCity } from '../../store/actions';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import { getOffers } from '../../store/slices/offers-data/selectors';
+import { fetchOffers } from '../../store/api-actions/offers';
+import { OfferCity } from '../../types/offers';
 import { capitalizeFirstLetter } from '../../utils/common';
+import { Spinner } from '../../components/shared/spinner/spinner';
 
 const cities = Object.values(CityMap);
 
 export function MainPage() {
-  const { cityName } = useParams();
+  const { cityName = CityMap.Paris.name } = useParams();
   const dispatch = useAppDispatch();
-  const offers = useAppSelector((state) => state.offers);
-  const activeCity = useAppSelector((state) => state.activeCity);
-  const offersByCity = offers.filter(
-    (offer) => offer.city.name === activeCity?.name
+  const { data: offers, loading } = useAppSelector(getOffers);
+  const [activeCity, setActiveCity] = useState(
+    CityMap[capitalizeFirstLetter(cityName)]
+  );
+  const activeCityName = activeCity?.name;
+  const offersByCity = useMemo(
+    () => offers.filter((offer) => offer.city.name === activeCity?.name),
+    [offers, activeCity]
   );
 
   useEffect(() => {
     dispatch(fetchOffers());
-    if (cityName) {
-      const capitalizedCityName = capitalizeFirstLetter(cityName);
-      dispatch(setActiveCity(CityMap[capitalizedCityName]));
-    }
   }, [cityName, dispatch]);
 
-  if (!offers) {
-    return 'Loading...';
+  function onCityChangeHandler(city: OfferCity) {
+    setActiveCity(city);
   }
+
+  if (cityName && !CityMap[capitalizeFirstLetter(cityName)]) {
+    return <Navigate to={AppRoute.Root} />;
+  }
+
 
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
-      <CityTabs cities={cities} activeCityName={activeCity.name} />
-      <Cities offers={offersByCity} city={activeCity} />
+      <CityTabs
+        cities={cities}
+        activeCityName={activeCityName}
+        onChange={onCityChangeHandler}
+      />
+      {loading && <Spinner />}
+      {(!loading && offersByCity && <Cities offers={offersByCity} city={activeCity} />)}
     </main>
   );
 }

@@ -8,6 +8,29 @@ export const AppRoute = {
   NotFound: '/not-found-page',
 } as const;
 
+export const StoreKey = {
+  Offers: 'OFFERS',
+  Offer: 'OFFER',
+  OffersNearby: 'OFFERS_NEARBY',
+  FavoriteOffers: 'FAVORITE_OFFERS',
+  Reviews: 'REVIEWS',
+  User: 'USER',
+} as const;
+
+export const APIRoute = {
+  Offers: '/offers',
+  OffersNearby: '/nearby',
+  Reviews: '/comments',
+  Favorite: '/favorite',
+  Login: '/login',
+  Logout: '/logout',
+} as const;
+
+export const AuthorizationStatus = {
+  Auth: 'AUTH',
+  NoAuth: 'NO_AUTH',
+  Unknown: 'UNKNOWN',
+} as const;
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';
@@ -71,4 +94,23 @@ export const CityMap: { [key: string]: OfferCity } = {
       zoom: 13,
     },
   },
+} as const;
+
+export const SortTypeMap = {
+  Popular: {
+    label: 'Popular',
+    key: 'Popular',
+  },
+  PriceLowToHigh: {
+    label: 'Price: low to high',
+    key: 'PriceLowToHigh',
+  },
+  PriceHighToLow: {
+    label: 'Price: high to low',
+    key: 'PriceHighToLow',
+  },
+  TopRatedFirst: {
+    label: 'Top rated first',
+    key: 'TopRatedFirst',
+  }
 } as const;

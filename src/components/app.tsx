@@ -12,37 +12,28 @@ import { AppRoute } from '../const';
 import { DefaultLayout, LoginLayout } from '../layout/';
 
 export function App() {
-
   return (
     <BrowserRouter>
       <Routes>
-
         <Route element={<DefaultLayout />}>
-          <Route
-            path={AppRoute.Root}
-            element={<MainPage />}
-          >
+          <Route path={AppRoute.Root} element={<MainPage />}>
             <Route path="/:cityName" />
           </Route>
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute hasAccess>
+              <PrivateRoute>
                 <FavoritesPage />
               </PrivateRoute>
             }
           />
           <Route path="*" element={<NotFoundPage />} />
-          <Route
-            path={`${AppRoute.Offer}/:id`}
-            element={<OfferPage />}
-          />
+          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage />} />
         </Route>
 
         <Route element={<LoginLayout />}>
           <Route path={AppRoute.Login} element={<LoginPage />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
   );
