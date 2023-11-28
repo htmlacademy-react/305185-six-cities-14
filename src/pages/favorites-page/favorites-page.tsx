@@ -3,7 +3,11 @@ import { useEffect } from 'react';
 import { PlaceCard } from '../../components/place-card/place-card';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { OfferPreview } from '../../types/offers';
-import { fetchFavoriteOffers, fetchOffers } from '../../store/actions';
+import { getFavoriteOffers, getUser } from '../../store/slices';
+import { checkAuth, fetchFavoriteOffers, fetchOffers } from '../../store/api-actions';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { Navigate } from 'react-router-dom';
+import { Spinner } from '../../components/shared/spinner/spinner';
 
 // normalizes offers by city key
 const getOffersByCityKey = (favOffers: OfferPreview[]) => {
@@ -27,17 +31,27 @@ const getOffersByCityKey = (favOffers: OfferPreview[]) => {
 
 export function FavoritesPage() {
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector((state) => state.favoriteOffers);
+  const { authStatus } = useAppSelector(getUser);
+  const { data: favorites, loading } = useAppSelector(getFavoriteOffers);
   const favoritesByCityKey = getOffersByCityKey(favorites);
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }
+  , [dispatch]);
 
   useEffect(() => {
     dispatch(fetchOffers());
     dispatch(fetchFavoriteOffers());
-
   }, [dispatch]);
 
-  if (!favorites) {
-    return 'Loading...';
+  if (authStatus === AuthorizationStatus.NoAuth) {
+    <Navigate to={AppRoute.Login} />;
+  }
+
+
+  if (loading) {
+    return <Spinner />;
   }
 
   return (
@@ -47,29 +61,27 @@ export function FavoritesPage() {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {Object.entries(favoritesByCityKey).map(
-                ([city, cityOffers]) => (
-                  <li className="favorites__locations-items" key={city}>
-                    <div className="favorites__locations locations locations--current">
-                      <div className="locations__item">
-                        <a className="locations__item-link" href="#">
-                          <span>{city}</span>
-                        </a>
-                      </div>
+              {Object.entries(favoritesByCityKey).map(([city, cityOffers]) => (
+                <li className="favorites__locations-items" key={city}>
+                  <div className="favorites__locations locations locations--current">
+                    <div className="locations__item">
+                      <a className="locations__item-link" href="#">
+                        <span>{city}</span>
+                      </a>
                     </div>
-                    <div className="favorites__places">
-                      {cityOffers.map((offer) => (
-                        <PlaceCard
-                          key={offer.id}
-                          offer={offer}
-                          size="small"
-                          blockType="favorites"
-                        />
-                      ))}
-                    </div>
-                  </li>
-                )
-              )}
+                  </div>
+                  <div className="favorites__places">
+                    {cityOffers.map((offer) => (
+                      <PlaceCard
+                        key={offer.id}
+                        offer={offer}
+                        size="small"
+                        blockType="favorites"
+                      />
+                    ))}
+                  </div>
+                </li>
+              ))}
             </ul>
           </section>
         </div>

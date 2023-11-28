@@ -1,10 +1,53 @@
+import { useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { checkAuth, login } from '../../store/api-actions/user';
+import { getUser } from '../../store/slices';
+import { AppRoute, AuthorizationStatus, CityMap } from '../../const';
+import { Link, Navigate } from 'react-router-dom';
+
 export function LoginPage() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const dispatch = useAppDispatch();
+  const { authStatus } = useAppSelector(getUser);
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }
+  , [dispatch]);
+
+  function onSubmitHandler(evt: React.FormEvent<HTMLFormElement>) {
+    evt.preventDefault();
+
+    const email = formRef.current?.elements.namedItem(
+      'email'
+    ) as HTMLInputElement;
+    const password = formRef.current?.elements.namedItem(
+      'password'
+    ) as HTMLInputElement;
+
+    if (email?.value && password?.value) {
+      dispatch(login({ email: email.value, password: password.value })).then(
+        () => <Navigate to={AppRoute.Root} />
+      );
+    }
+  }
+
+  if (authStatus === AuthorizationStatus.Auth) {
+    <Navigate to={AppRoute.Root} />;
+  }
+
   return (
     <main className="page__main page__main--login">
       <div className="page__login-container container">
         <section className="login">
           <h1 className="login__title">Sign in</h1>
-          <form className="login__form form" action="#" method="post">
+          <form
+            ref={formRef}
+            className="login__form form"
+            action="#"
+            method="post"
+            onSubmit={onSubmitHandler}
+          >
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
               <input
@@ -32,9 +75,12 @@ export function LoginPage() {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#">
+            <Link
+              className="locations__item-link"
+              to={`/${CityMap.Amsterdam.name.toLowerCase()}`}
+            >
               <span>Amsterdam</span>
-            </a>
+            </Link>
           </div>
         </section>
       </div>
