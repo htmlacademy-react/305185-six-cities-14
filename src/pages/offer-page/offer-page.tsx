@@ -23,7 +23,7 @@ export function OfferPage() {
   const { data: offersNearby, loading: offersNearbyLoading } =
     useAppSelector(getOffersNearby);
   const offersNearbyLimited = offersNearby.slice(0, MAX_NEARBY_OFFERS);
-  const pointsNearby = offersNearby.map(({ id: offerId, location }) => ({
+  const pointsNearby = offersNearbyLimited.map(({ id: offerId, location }) => ({
     offerId,
     location,
   }));

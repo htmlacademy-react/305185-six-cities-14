@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Cities } from '../../components/cities/cities';
 import { AppRoute, CityMap } from '../../const';
 import { CityTabs } from '../../components/city-tabs/city-tabs';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { Navigate, useParams } from 'react-router-dom';
 import { getOffers } from '../../store/slices/offers-data/selectors';
 import { fetchOffers } from '../../store/api-actions/offers';
 import { OfferCity } from '../../types/offers';
@@ -15,6 +15,7 @@ const cities = Object.values(CityMap);
 
 export function MainPage() {
   const { cityName = CityMap.Paris.name } = useParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { data: offers, loading } = useAppSelector(getOffers);
   const [activeCity, setActiveCity] = useState(
@@ -25,6 +26,7 @@ export function MainPage() {
     () => offers.filter((offer) => offer.city.name === activeCity?.name),
     [offers, activeCity]
   );
+  const hasOffers = offersByCity.length;
 
   useEffect(() => {
     dispatch(fetchOffers());
@@ -34,10 +36,14 @@ export function MainPage() {
     setActiveCity(city);
   }
 
-  if (cityName && !CityMap[capitalizeFirstLetter(cityName)]) {
-    return <Navigate to={AppRoute.Root} />;
-  }
-
+  // if city name is not valid, redirect to root
+  useEffect(() => {
+    if (cityName && !CityMap[capitalizeFirstLetter(cityName)]) {
+      navigate(AppRoute.Root, { replace: true });
+    } else {
+      setActiveCity(CityMap[capitalizeFirstLetter(cityName)]);
+    }
+  }, [cityName, navigate]);
 
   return (
     <main className="page__main page__main--index">
@@ -48,7 +54,14 @@ export function MainPage() {
         onChange={onCityChangeHandler}
       />
       {loading && <Spinner />}
-      {(!loading && offersByCity && <Cities offers={offersByCity} city={activeCity} />)}
+      {!loading && hasOffers && (
+        <Cities offers={offersByCity} city={activeCity} />
+      )}
+      {!loading && !hasOffers && (
+        <div className="cities__status-wrapper tabs__content">
+          No places to stay available
+        </div>
+      )}
     </main>
   );
 }

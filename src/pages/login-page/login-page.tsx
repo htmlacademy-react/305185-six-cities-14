@@ -1,19 +1,20 @@
 import { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { checkAuth, login } from '../../store/api-actions/user';
 import { getUser } from '../../store/slices';
 import { AppRoute, AuthorizationStatus, CityMap } from '../../const';
-import { Link, Navigate } from 'react-router-dom';
 
 export function LoginPage() {
+  const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
   const dispatch = useAppDispatch();
   const { authStatus } = useAppSelector(getUser);
 
   useEffect(() => {
     dispatch(checkAuth());
-  }
-  , [dispatch]);
+  }, [dispatch]);
 
   function onSubmitHandler(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -27,13 +28,13 @@ export function LoginPage() {
 
     if (email?.value && password?.value) {
       dispatch(login({ email: email.value, password: password.value })).then(
-        () => <Navigate to={AppRoute.Root} />
+        () => navigate(AppRoute.Root)
       );
     }
   }
 
   if (authStatus === AuthorizationStatus.Auth) {
-    <Navigate to={AppRoute.Root} />;
+    navigate(AppRoute.Root);
   }
 
   return (
