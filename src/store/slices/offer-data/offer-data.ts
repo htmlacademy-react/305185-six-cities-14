@@ -14,7 +14,20 @@ const initialState: StoreData<Offer | null> = {
 export const offerData = createSlice({
   name: StoreKey.Offer,
   initialState,
-  reducers: {},
+  reducers: {
+    markAsFavoriteInOffer: (state, action) => {
+      const offer = state.data;
+      if (offer && offer.id === action.payload) {
+        offer.isFavorite = true;
+      }
+    },
+    unmarkAsFavoriteInOffer: (state, action) => {
+      const offer = state.data;
+      if (offer && offer.id === action.payload) {
+        offer.isFavorite = false;
+      }
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOffer.pending, (state) => {
@@ -32,3 +45,6 @@ export const offerData = createSlice({
       });
   },
 });
+
+export const { markAsFavoriteInOffer, unmarkAsFavoriteInOffer } =
+  offerData.actions;

@@ -10,10 +10,12 @@ import {
   removeFavoriteOffer,
 } from '../../store/api-actions/favorite-offers';
 
+type Block = 'place-card' | 'offer';
+
 type BookmarkProps = {
   id: OfferPreview['id'];
   isActive: OfferPreview['isFavorite'];
-  block?: string;
+  block?: Block;
   size?: 'small' | 'large';
 };
 
@@ -47,7 +49,7 @@ export function Bookmark({
   return (
     <button
       className={classNames(`${block}__bookmark-button button`, {
-        'place-card__bookmark-button--active': isActive,
+        [`${block}__bookmark-button--active`]: isActive,
       })}
       type="button"
       onClick={handleClick}

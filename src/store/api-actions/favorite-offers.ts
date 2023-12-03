@@ -3,7 +3,18 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { OfferPreview } from '../../types/offers.js';
 import { APIRoute, StoreKey } from '../../const.js';
-import { markOfferAsFavorite, unmarkOfferAsFavorite } from '../slices/offers-data/offers-data.js';
+import {
+  markAsFavoriteInOffer,
+  unmarkAsFavoriteInOffer,
+} from '../slices/offer-data/offer-data.js';
+import {
+  markAsFavoriteInOffers,
+  unmarkAsFavoriteInOffers,
+} from '../slices/offers-data/offers-data.js';
+import {
+  markAsFavoriteInOffersNearby,
+  unmarkAsFavoriteInOffersNearby,
+} from '../slices/offers-nearby-data/offers-nearby-data.js';
 
 export const fetchFavoriteOffers = createAsyncThunk<
   OfferPreview[],
@@ -22,13 +33,18 @@ export const addFavoriteOffer = createAsyncThunk<
   {
     extra: AxiosInstance;
   }
->(`${StoreKey.FavoriteOffers}/add`, async (offerId, { extra: api, dispatch }) => {
-  const { data } = await api.post<OfferPreview>(
-    `${APIRoute.Favorite}/${offerId}/1`
-  );
-  dispatch(markOfferAsFavorite(offerId));
-  return data;
-});
+>(
+  `${StoreKey.FavoriteOffers}/add`,
+  async (offerId, { extra: api, dispatch }) => {
+    const { data } = await api.post<OfferPreview>(
+      `${APIRoute.Favorite}/${offerId}/1`
+    );
+    dispatch(markAsFavoriteInOffer(offerId));
+    dispatch(markAsFavoriteInOffers(offerId));
+    dispatch(markAsFavoriteInOffersNearby(offerId));
+    return data;
+  }
+);
 
 export const removeFavoriteOffer = createAsyncThunk<
   OfferPreview,
@@ -36,10 +52,15 @@ export const removeFavoriteOffer = createAsyncThunk<
   {
     extra: AxiosInstance;
   }
->(`${StoreKey.FavoriteOffers}/remove`, async (offerId, { extra: api, dispatch }) => {
-  const { data } = await api.post<OfferPreview>(
-    `${APIRoute.Favorite}/${offerId}/0`
-  );
-  dispatch(unmarkOfferAsFavorite(offerId));
-  return data;
-});
+>(
+  `${StoreKey.FavoriteOffers}/remove`,
+  async (offerId, { extra: api, dispatch }) => {
+    const { data } = await api.post<OfferPreview>(
+      `${APIRoute.Favorite}/${offerId}/0`
+    );
+    dispatch(unmarkAsFavoriteInOffer(offerId));
+    dispatch(unmarkAsFavoriteInOffers(offerId));
+    dispatch(unmarkAsFavoriteInOffersNearby(offerId));
+    return data;
+  }
+);
