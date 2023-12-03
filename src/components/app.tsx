@@ -17,7 +17,7 @@ export function App() {
       <Routes>
         <Route element={<DefaultLayout />}>
           <Route path={AppRoute.Root} element={<MainPage />}>
-            <Route path="/:cityName" />
+            <Route path="/:cityName" element={<MainPage />} />
           </Route>
           <Route
             path={AppRoute.Favorites}

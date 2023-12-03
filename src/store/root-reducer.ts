@@ -7,13 +7,12 @@ import {
   offerReviewsData,
   userData,
 } from './slices/';
-import { StoreKey } from '../const';
 
 export const rootReducer = combineReducers({
-  [StoreKey.Offers]: offersData.reducer,
-  [StoreKey.Offer]: offerData.reducer,
-  [StoreKey.OffersNearby]: offersNearbyData.reducer,
-  [StoreKey.FavoriteOffers]: favoriteOffersData.reducer,
-  [StoreKey.Reviews]: offerReviewsData.reducer,
-  [StoreKey.User]: userData.reducer,
+  [offersData.name]: offersData.reducer,
+  [offerData.name]: offerData.reducer,
+  [offersNearbyData.name]: offersNearbyData.reducer,
+  [favoriteOffersData.name]: favoriteOffersData.reducer,
+  [offerReviewsData.name]: offerReviewsData.reducer,
+  [userData.name]: userData.reducer,
 });
