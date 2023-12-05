@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { MAX_NEARBY_OFFERS } from '../../const';
+import { AppRoute, MAX_NEARBY_OFFERS, RequestStatus } from '../../const';
 import { OfferDetails } from '../../components/offer-details/offer-details';
 import { Map } from '../../components/map/map';
 import { OffersNearby } from '../../components/offers-nearby/offers-nearby';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { getOffer, getOffersNearby, getReviews } from '../../store/slices';
+import { getOffer, getOffersNearby } from '../../store/slices';
 import {
   fetchOffer,
   fetchOffersNearby,
@@ -17,10 +17,9 @@ import { Spinner } from '../../components/shared/spinner/spinner';
 export function OfferPage() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { data: offer, loading: offerLoading } = useAppSelector(getOffer);
-  const { data: offerReviews, loading: reviewsLoading } =
-    useAppSelector(getReviews);
-  const { data: offersNearby, loading: offersNearbyLoading } =
+  const navigate = useNavigate();
+  const { data: offer, status: offerStatus } = useAppSelector(getOffer);
+  const { data: offersNearby, status: offersNearbyStatus } =
     useAppSelector(getOffersNearby);
   const offersNearbyLimited = offersNearby.slice(0, MAX_NEARBY_OFFERS);
   const pointsNearby = offersNearbyLimited.map(({ id: offerId, location }) => ({
@@ -28,8 +27,10 @@ export function OfferPage() {
     location,
   }));
 
-  const loading =
-    !offer || offerLoading || reviewsLoading || offersNearbyLoading;
+  const isOfferPending = offerStatus === RequestStatus.Pending;
+  const isOfferRejected = offerStatus === RequestStatus.Rejected;
+  const isOffersNearbyPending = offersNearbyStatus === RequestStatus.Pending;
+  const isLoading = isOfferPending || isOffersNearbyPending;
 
   useEffect(() => {
     if (id) {
@@ -39,21 +40,25 @@ export function OfferPage() {
     }
   }, [id, dispatch]);
 
-  if (loading) {
-    return <Spinner />;
-  }
+  useEffect(() => {
+    if (isOfferRejected) {
+      navigate(AppRoute.NotFound);
+    }
+  }, [offer, navigate, isOfferRejected]);
 
   return (
-    <main className="page__main page__main--offer">
-      <OfferDetails offer={offer} reviews={offerReviews} />
-      <Map
-        points={pointsNearby}
-        location={offer.city.location}
-        className="offer__map"
-      />
-      <div className="container">
-        <OffersNearby offers={offersNearbyLimited} />
-      </div>
-    </main>
+    ((!isLoading && offer) && (
+      <main className="page__main page__main--offer">
+        <OfferDetails offer={offer} />
+        <Map
+          points={pointsNearby}
+          location={offer.city.location}
+          className="offer__map"
+        />
+        <div className="container">
+          <OffersNearby offers={offersNearbyLimited} />
+        </div>
+      </main>
+    )) || <Spinner />
   );
 }

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Cities } from '../../components/cities/cities';
-import { AppRoute, CityMap } from '../../const';
+import { AppRoute, CityMap, RequestStatus } from '../../const';
 import { CityTabs } from '../../components/city-tabs/city-tabs';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { getOffers } from '../../store/slices/offers-data/selectors';
@@ -17,7 +17,7 @@ export function MainPage() {
   const { cityName = CityMap.Paris.name } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { data: offers, loading } = useAppSelector(getOffers);
+  const { data: offers, status } = useAppSelector(getOffers);
   const [activeCity, setActiveCity] = useState(
     CityMap[capitalizeFirstLetter(cityName)]
   );
@@ -27,6 +27,7 @@ export function MainPage() {
     [offers, activeCity]
   );
   const hasOffers = offersByCity.length;
+  const isLoading = status === RequestStatus.Pending;
 
   useEffect(() => {
     dispatch(fetchOffers());
@@ -53,14 +54,9 @@ export function MainPage() {
         activeCityName={activeCityName}
         onChange={onCityChangeHandler}
       />
-      {loading && <Spinner />}
-      {!loading && hasOffers && (
+      {isLoading && <Spinner />}
+      {!isLoading && hasOffers && (
         <Cities offers={offersByCity} city={activeCity} />
-      )}
-      {!loading && !hasOffers && (
-        <div className="cities__status-wrapper tabs__content">
-          No places to stay available
-        </div>
       )}
     </main>
   );

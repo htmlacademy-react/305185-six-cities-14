@@ -1,11 +1,26 @@
 import { ChangeEvent, useState } from 'react';
-import { Rating } from './rating/rating';
 
-export function ReviewForm() {
-  const MIN_COMMENT_LENGTH = 50;
+import { useAppDispatch, useAppSelector } from '../../../../hooks/store';
+
+import { Rating } from './rating/rating';
+import { addReview } from '../../../../store/api-actions';
+import { Offer } from '../../../../types/offers';
+import { getReviews } from '../../../../store/slices';
+import { RequestStatus } from '../../../../const';
+
+const MIN_COMMENT_LENGTH = 50;
+
+type ReviewFormProps = {
+  offerId: Offer['id'];
+};
+
+export function ReviewForm({ offerId }: ReviewFormProps) {
+  const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const isValid = comment.length > MIN_COMMENT_LENGTH && rating !== 0;
+  const { status } = useAppSelector(getReviews);
+  const isLoading = status === RequestStatus.Pending;
 
   function commentChangeHandler(e: ChangeEvent<HTMLTextAreaElement>) {
     setComment(e.target.value);
@@ -14,8 +29,22 @@ export function ReviewForm() {
     setRating(Number(e.target.value));
   }
 
+  function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
+    evt.preventDefault();
+    if (isValid) {
+      const review = {
+        comment,
+        rating,
+      };
+      dispatch(addReview({ offerId, review })).then(() => {
+        setComment('');
+        setRating(0);
+      });
+    }
+  }
+
   return (
-    <form className="form" action="#" method="post">
+    <form className="form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -41,7 +70,7 @@ export function ReviewForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isValid}
+          disabled={isLoading}
         >
           Submit
         </button>

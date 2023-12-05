@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Offer } from '../../../types/offers';
 import { fetchOffer } from '../../api-actions/offer';
-import { StoreKey } from '../../../const';
+import { RequestStatus, StoreKey } from '../../../const';
 import { StoreData } from '../../../types/store';
 
 const initialState: StoreData<Offer | null> = {
   data: null,
-  loading: false,
+  status: RequestStatus.Idle,
   hasError: false,
 };
 
@@ -31,16 +31,16 @@ export const offerData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchOffer.pending, (state) => {
-        state.loading = true;
+        state.status = RequestStatus.Pending;
         state.hasError = false;
       })
       .addCase(fetchOffer.fulfilled, (state, action: PayloadAction<Offer>) => {
         state.data = action.payload;
-        state.loading = false;
+        state.status = RequestStatus.Fulfilled;
         state.hasError = false;
       })
       .addCase(fetchOffer.rejected, (state) => {
-        state.loading = false;
+        state.status = RequestStatus.Rejected;
         state.hasError = true;
       });
   },

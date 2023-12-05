@@ -36,13 +36,11 @@ export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';
 export const MAX_NEARBY_OFFERS = 3;
 
-export const ActionKey = {
-  Offers: 'OFFERS',
-  Offer: 'OFFER',
-  OffersNearby: 'OFFERS_NEARBY',
-  OfferReviews: 'OFFER_REVIEWS',
-  FavoriteOffers: 'FAVORITE_OFFERS',
-  ActiveCity: 'ACTIVE_CITY',
+export const RequestStatus = {
+  Idle: 'idle',
+  Pending: 'pending',
+  Fulfilled: 'fulfilled',
+  Rejected: 'rejected',
 } as const;
 
 export const CityMap: { [key: string]: OfferCity } = {
