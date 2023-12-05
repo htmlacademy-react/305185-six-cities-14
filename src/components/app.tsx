@@ -27,8 +27,9 @@ export function App() {
               </PrivateRoute>
             }
           />
-          <Route path="*" element={<NotFoundPage />} />
           <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage />} />
+          <Route path={`${AppRoute.NotFound}`} element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route element={<LoginLayout />}>

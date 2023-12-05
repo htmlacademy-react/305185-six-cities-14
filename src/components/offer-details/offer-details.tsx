@@ -1,4 +1,4 @@
-import { Offer, OfferReview } from '../../types/offers';
+import { Offer } from '../../types/offers';
 import { capitalizeFirstLetter } from '../../utils/common';
 import { getRatingInPercent } from '../../utils/offers';
 import { Gallery } from './components/gallery/gallery';
@@ -7,13 +7,14 @@ import { Goods } from './components/goods/goods';
 import { Host } from './components/host/host';
 import { Reviews } from './components/reviews/reviews';
 import { Bookmark } from '../bookmark/bookmark';
+import { useAppSelector } from '../../hooks/store';
+import { getReviews } from '../../store/slices';
 
 type OfferDetailsProps = {
   offer: Offer;
-  reviews: OfferReview[];
 };
 
-export function OfferDetails({ offer, reviews }: OfferDetailsProps) {
+export function OfferDetails({ offer }: OfferDetailsProps) {
   const {
     id,
     isPremium,
@@ -29,6 +30,9 @@ export function OfferDetails({ offer, reviews }: OfferDetailsProps) {
     host,
     description,
   } = offer;
+  const { data: offerReviews } =
+    useAppSelector(getReviews);
+
   return (
     <section className="offer">
       <div className="offer__gallery-container container">
@@ -68,7 +72,11 @@ export function OfferDetails({ offer, reviews }: OfferDetailsProps) {
           </div>
           <Goods goods={goods} />
           <Host host={host} description={description} />
-          <Reviews className="offer__reviews" reviews={reviews} />
+          <Reviews
+            offerId={offer.id}
+            className="offer__reviews"
+            reviews={offerReviews}
+          />
         </div>
       </div>
     </section>

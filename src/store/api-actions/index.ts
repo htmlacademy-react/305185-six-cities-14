@@ -1,6 +1,6 @@
 export { fetchOffers } from './offers';
 export { fetchOffer } from './offer';
 export { fetchOffersNearby } from './offers-nearby';
-export { fetchReviews } from './reviews';
+export { fetchReviews, addReview } from './reviews';
 export { fetchFavoriteOffers } from './favorite-offers';
-export { checkAuth } from './user';
+export { checkAuth, login, logout } from './user';

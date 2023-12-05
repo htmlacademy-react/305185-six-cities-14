@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { OfferReview } from '../../../types/offers';
-import { fetchReviews } from '../../api-actions/reviews';
-import { StoreKey } from '../../../const';
+import { addReview, fetchReviews } from '../../api-actions/reviews';
+import { RequestStatus, StoreKey } from '../../../const';
 import { StoreData } from '../../../types/store';
 
 const initialState: StoreData<OfferReview[]> = {
   data: [],
-  loading: false,
+  status: RequestStatus.Idle,
   hasError: false,
 };
 
@@ -18,19 +18,32 @@ export const offerReviewsData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchReviews.pending, (state) => {
-        state.loading = true;
+        state.status = RequestStatus.Pending;
         state.hasError = false;
       })
       .addCase(
         fetchReviews.fulfilled,
         (state, action: PayloadAction<OfferReview[]>) => {
           state.data = action.payload;
-          state.loading = false;
+          state.status = RequestStatus.Fulfilled;
           state.hasError = false;
         }
       )
       .addCase(fetchReviews.rejected, (state) => {
-        state.loading = false;
+        state.status = RequestStatus.Rejected;
+        state.hasError = true;
+      })
+      .addCase(addReview.pending, (state) => {
+        state.status = RequestStatus.Pending;
+        state.hasError = false;
+      })
+      .addCase(addReview.fulfilled, (state, action: PayloadAction<OfferReview>) => {
+        state.data.push(action.payload);
+        state.status = RequestStatus.Fulfilled;
+        state.hasError = false;
+      })
+      .addCase(addReview.rejected, (state) => {
+        state.status = RequestStatus.Rejected;
         state.hasError = true;
       });
   },

@@ -1,6 +1,6 @@
 import { store } from '../store';
 import { User } from './user';
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, RequestStatus } from '../const';
 
 export type RootState = ReturnType<typeof store.getState>;
 
@@ -8,7 +8,7 @@ export type AppDispatch = typeof store.dispatch;
 
 export type StoreData<T> = {
   data: T;
-  loading: boolean;
+  status: typeof RequestStatus[keyof typeof RequestStatus];
   hasError: boolean;
 };
 
