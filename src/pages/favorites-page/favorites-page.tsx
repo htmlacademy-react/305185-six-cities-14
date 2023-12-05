@@ -6,6 +6,7 @@ import { OfferPreview } from '../../types/offers';
 import { getFavoriteOffers } from '../../store/slices';
 import { fetchFavoriteOffers } from '../../store/api-actions';
 import { Spinner } from '../../components/shared/spinner/spinner';
+import { RequestStatus } from '../../const';
 
 // normalizes offers by city key
 const getOffersByCityKey = (favOffers: OfferPreview[]) => {
@@ -29,8 +30,9 @@ const getOffersByCityKey = (favOffers: OfferPreview[]) => {
 
 export function FavoritesPage() {
   const dispatch = useAppDispatch();
-  const { data: favorites, loading } = useAppSelector(getFavoriteOffers);
+  const { data: favorites, status } = useAppSelector(getFavoriteOffers);
   const favoritesByCityKey = getOffersByCityKey(favorites);
+  const isLoading = status === RequestStatus.Pending;
 
   useEffect(() => {
     dispatch(fetchFavoriteOffers());
@@ -42,8 +44,8 @@ export function FavoritesPage() {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            {loading && <Spinner />}
-            {!loading && (
+            {isLoading && <Spinner />}
+            {!isLoading && (
               <ul className="favorites__list">
                 {Object.entries(favoritesByCityKey).map(
                   ([city, cityOffers]) => (
