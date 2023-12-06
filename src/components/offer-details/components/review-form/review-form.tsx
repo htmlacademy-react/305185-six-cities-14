@@ -22,10 +22,10 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
   const { status } = useAppSelector(getReviews);
   const isLoading = status === RequestStatus.Pending;
 
-  function commentChangeHandler(e: ChangeEvent<HTMLTextAreaElement>) {
+  function handleCommentChange(e: ChangeEvent<HTMLTextAreaElement>) {
     setComment(e.target.value);
   }
-  function ratingChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+  function handleRatingChange(e: ChangeEvent<HTMLInputElement>) {
     setRating(Number(e.target.value));
   }
 
@@ -48,14 +48,14 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
-      <Rating onChange={ratingChangeHandler} />
+      <Rating onChange={handleRatingChange} />
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
-        onChange={commentChangeHandler}
+        onChange={handleCommentChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -70,7 +70,7 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !isValid}
         >
           Submit
         </button>

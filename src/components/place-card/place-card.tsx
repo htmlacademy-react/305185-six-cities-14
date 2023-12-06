@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../const';
@@ -21,7 +22,7 @@ const CARD_SIZE_MAP = {
   large: { width: 260, height: 200 },
 };
 
-export function PlaceCard({
+export function PlaceCardComponent({
   offer,
   size = 'large',
   blockType = 'cities',
@@ -66,6 +67,7 @@ export function PlaceCard({
             src={previewImage}
             alt="Place image"
             {...CARD_SIZE_MAP[size]}
+            loading="lazy"
           />
         </Link>
       </div>
@@ -91,3 +93,5 @@ export function PlaceCard({
     </article>
   );
 }
+
+export const PlaceCard = memo(PlaceCardComponent);

@@ -1,10 +1,7 @@
-import { useEffect } from 'react';
-
 import { PlaceCard } from '../../components/place-card/place-card';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { useAppSelector } from '../../hooks/store';
 import { OfferPreview } from '../../types/offers';
 import { getFavoriteOffers } from '../../store/slices';
-import { fetchFavoriteOffers } from '../../store/api-actions';
 import { Spinner } from '../../components/shared/spinner/spinner';
 import { RequestStatus } from '../../const';
 
@@ -29,14 +26,9 @@ const getOffersByCityKey = (favOffers: OfferPreview[]) => {
 };
 
 export function FavoritesPage() {
-  const dispatch = useAppDispatch();
   const { data: favorites, status } = useAppSelector(getFavoriteOffers);
   const favoritesByCityKey = getOffersByCityKey(favorites);
   const isLoading = status === RequestStatus.Pending;
-
-  useEffect(() => {
-    dispatch(fetchFavoriteOffers());
-  }, [dispatch]);
 
   return (
     <>

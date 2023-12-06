@@ -33,7 +33,7 @@ export function MainPage() {
     dispatch(fetchOffers());
   }, [cityName, dispatch]);
 
-  function onCityChangeHandler(city: OfferCity) {
+  function handleCityChange(city: OfferCity) {
     setActiveCity(city);
   }
 
@@ -52,7 +52,7 @@ export function MainPage() {
       <CityTabs
         cities={cities}
         activeCityName={activeCityName}
-        onChange={onCityChangeHandler}
+        onChange={handleCityChange}
       />
       {isLoading && <Spinner />}
       {!isLoading && hasOffers && (

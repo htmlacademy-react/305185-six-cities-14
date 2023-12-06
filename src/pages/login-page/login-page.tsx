@@ -16,7 +16,7 @@ export function LoginPage() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  function onSubmitHandler(evt: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
     const email = formRef.current?.elements.namedItem(
@@ -47,7 +47,7 @@ export function LoginPage() {
             className="login__form form"
             action="#"
             method="post"
-            onSubmit={onSubmitHandler}
+            onSubmit={handleSubmit}
           >
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
