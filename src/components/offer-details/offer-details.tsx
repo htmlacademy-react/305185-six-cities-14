@@ -14,6 +14,8 @@ type OfferDetailsProps = {
   offer: Offer;
 };
 
+const MAX_GALLERY_IMAGES = 6;
+
 export function OfferDetails({ offer }: OfferDetailsProps) {
   const {
     id,
@@ -30,13 +32,13 @@ export function OfferDetails({ offer }: OfferDetailsProps) {
     host,
     description,
   } = offer;
-  const { data: offerReviews } =
-    useAppSelector(getReviews);
+  const { data: offerReviews } = useAppSelector(getReviews);
+  const imagesLimited = images.slice(0, MAX_GALLERY_IMAGES);
 
   return (
     <section className="offer">
       <div className="offer__gallery-container container">
-        <Gallery imageUrls={images} />
+        <Gallery imageUrls={imagesLimited} />
       </div>
       <div className="offer__container container">
         <div className="offer__wrapper">

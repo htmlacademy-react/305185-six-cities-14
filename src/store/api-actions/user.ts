@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, StoreKey } from '../../const';
 import { User } from '../../types/user';
 import { AxiosInstance } from 'axios';
-import { removeAuthToken, saveAuthToken } from '../../services/token';
+import { getAuthToken, removeAuthToken, saveAuthToken } from '../../services/token';
 
 export const checkAuth = createAsyncThunk<
   User,
@@ -12,6 +12,10 @@ export const checkAuth = createAsyncThunk<
     extra: AxiosInstance;
   }
 >(`${StoreKey.User}/checkAuth`, async (_arg, { extra: api }) => {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error('Token is not defined');
+  }
   const { data } = await api.get<User>(APIRoute.Login);
   return data;
 });

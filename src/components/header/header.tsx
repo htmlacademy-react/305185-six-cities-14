@@ -1,29 +1,38 @@
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import { HeaderLogo } from './header-logo/header-logo';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { checkAuth, fetchFavoriteOffers } from '../../store/api-actions';
 import { getFavoriteOffers, getUser } from '../../store/slices';
 import { logout } from '../../store/api-actions/user';
 import { HeaderUser } from './header-user/header-user';
+import classNames from 'classnames';
 
 export function Header() {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { data: userData, authStatus } = useAppSelector(getUser);
+  const { data: userData, authStatus, status } = useAppSelector(getUser);
   const { data: favoriteOffersData } = useAppSelector(getFavoriteOffers);
   const favoritesCount = favoriteOffersData?.length;
 
   useEffect(() => {
-    dispatch(checkAuth());
+    if (
+      authStatus === AuthorizationStatus.Unknown &&
+      status !== RequestStatus.Rejected &&
+      status !== RequestStatus.Pending
+    ) {
+      dispatch(checkAuth());
+    }
+  }, [authStatus, dispatch, status]);
+
+  useEffect(() => {
     dispatch(fetchFavoriteOffers());
   }, [dispatch]);
 
   const signOut = (evt: React.MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
-    dispatch(logout()).then(() => navigate(AppRoute.Login));
+    dispatch(logout());
   };
 
   const handleLinkClick =
@@ -47,17 +56,22 @@ export function Header() {
                   favoritesCount={favoritesCount}
                 />
               )}
-              {authStatus !== AuthorizationStatus.Unknown && (
-                <li className="header__nav-item">
-                  <Link
-                    className="header__nav-link"
-                    to={AppRoute.Login}
-                    onClick={handleLinkClick}
+              <li className="header__nav-item user">
+                <Link
+                  className="header__nav-link header__nav-link--profile"
+                  to={AppRoute.Login}
+                  onClick={handleLinkClick}
+                >
+                  <span
+                    className={classNames({
+                      'header__signout': authStatus === AuthorizationStatus.Auth,
+                      'header__login': authStatus === AuthorizationStatus.NoAuth,
+                    })}
                   >
-                    <span className="header__signout">{actionText}</span>
-                  </Link>
-                </li>
-              )}
+                    {actionText}
+                  </span>
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>

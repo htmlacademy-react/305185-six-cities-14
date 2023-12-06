@@ -22,10 +22,12 @@ export function OfferPage() {
   const { data: offersNearby, status: offersNearbyStatus } =
     useAppSelector(getOffersNearby);
   const offersNearbyLimited = offersNearby.slice(0, MAX_NEARBY_OFFERS);
-  const pointsNearby = offersNearbyLimited.map(({ id: offerId, location }) => ({
-    offerId,
-    location,
-  }));
+  const pointsNearby =
+    offer &&
+    [...offersNearbyLimited, offer].map(({ id: offerId, location }) => ({
+      offerId,
+      location,
+    }));
 
   const isOfferPending = offerStatus === RequestStatus.Pending;
   const isOfferRejected = offerStatus === RequestStatus.Rejected;
@@ -47,13 +49,14 @@ export function OfferPage() {
   }, [offer, navigate, isOfferRejected]);
 
   return (
-    ((!isLoading && offer) && (
+    (!isLoading && offer && pointsNearby && (
       <main className="page__main page__main--offer">
         <OfferDetails offer={offer} />
         <Map
           points={pointsNearby}
           location={offer.city.location}
           className="offer__map"
+          selectedPoint={offer.id}
         />
         <div className="container">
           <OffersNearby offers={offersNearbyLimited} />

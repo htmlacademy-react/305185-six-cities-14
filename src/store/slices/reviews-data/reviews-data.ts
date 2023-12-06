@@ -38,7 +38,7 @@ export const offerReviewsData = createSlice({
         state.hasError = false;
       })
       .addCase(addReview.fulfilled, (state, action: PayloadAction<OfferReview>) => {
-        state.data.push(action.payload);
+        state.data.unshift(action.payload);
         state.status = RequestStatus.Fulfilled;
         state.hasError = false;
       })

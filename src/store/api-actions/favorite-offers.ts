@@ -15,6 +15,7 @@ import {
   markAsFavoriteInOffersNearby,
   unmarkAsFavoriteInOffersNearby,
 } from '../slices/offers-nearby-data/offers-nearby-data.js';
+import { getAuthToken } from '../../services/token.js';
 
 export const fetchFavoriteOffers = createAsyncThunk<
   OfferPreview[],
@@ -23,6 +24,10 @@ export const fetchFavoriteOffers = createAsyncThunk<
     extra: AxiosInstance;
   }
 >(`${StoreKey.FavoriteOffers}/fetch`, async (_, { extra: api }) => {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error('Token is not defined');
+  }
   const { data } = await api.get<OfferPreview[]>(APIRoute.Favorite);
   return data;
 });

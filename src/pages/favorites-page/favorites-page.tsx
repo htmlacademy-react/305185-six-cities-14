@@ -34,8 +34,8 @@ export function FavoritesPage() {
 
   return (
     <>
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
+      <main className="page__main page__main--favorites ">
+        <div className="page__favorites-container container ">
           <section className="favorites">
             {(hasFavorites && (
               <>

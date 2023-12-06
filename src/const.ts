@@ -1,5 +1,7 @@
 import { OfferCity } from './types/offers';
 
+export const API_URL = import.meta.env.VITE_APP_API_URL as string;
+
 export const AppRoute = {
   Root: '/',
   Login: '/login',
@@ -35,6 +37,7 @@ export const AuthorizationStatus = {
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';
 export const MAX_NEARBY_OFFERS = 3;
+export const MAX_REVIEWS = 10;
 
 export const RequestStatus = {
   Idle: 'idle',

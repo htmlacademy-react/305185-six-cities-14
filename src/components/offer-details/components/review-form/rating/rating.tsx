@@ -2,6 +2,8 @@ import { Fragment } from 'react';
 
 type RatingProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: number;
+  disabled?: boolean;
 };
 
 const RATING_MAP = {
@@ -12,7 +14,7 @@ const RATING_MAP = {
   5: 'perfect',
 };
 
-export function Rating({ onChange }: RatingProps) {
+export function Rating({ onChange, value, disabled = false }: RatingProps) {
   return (
     <div className="reviews__rating-form form__rating">
       {Object.entries(RATING_MAP)
@@ -26,6 +28,8 @@ export function Rating({ onChange }: RatingProps) {
               id={`${score}-stars`}
               type="radio"
               onChange={onChange}
+              disabled={disabled}
+              checked={Number(score) === value}
             />
             <label
               htmlFor={`${score}-stars`}

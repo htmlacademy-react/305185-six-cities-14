@@ -20,7 +20,7 @@ export function Host({ host, description }: HostProps): JSX.Element {
         >
           <img
             className="offer__avatar user__avatar"
-            src="img/avatar-angelina.jpg"
+            src={host.avatarUrl}
             width="74"
             height="74"
             alt="Host avatar"

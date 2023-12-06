@@ -9,6 +9,7 @@ import { getReviews } from '../../../../store/slices';
 import { RequestStatus } from '../../../../const';
 
 const MIN_COMMENT_LENGTH = 50;
+const MAX_COMMENT_LENGTH = 250;
 
 type ReviewFormProps = {
   offerId: Offer['id'];
@@ -18,7 +19,10 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  const isValid = comment.length > MIN_COMMENT_LENGTH && rating !== 0;
+  const isValid =
+    comment.length >= MIN_COMMENT_LENGTH &&
+    comment.length <= MAX_COMMENT_LENGTH &&
+    rating !== 0;
   const { status } = useAppSelector(getReviews);
   const isLoading = status === RequestStatus.Pending;
 
@@ -36,19 +40,25 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
         comment,
         rating,
       };
-      dispatch(addReview({ offerId, review })).then(() => {
-        setComment('');
-        setRating(0);
+      dispatch(addReview({ offerId, review })).then((res) => {
+        if (res.meta.requestStatus === RequestStatus.Fulfilled) {
+          setComment('');
+          setRating(0);
+        }
       });
     }
   }
 
   return (
-    <form className="form" action="#" method="post" onSubmit={handleSubmit}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
-      <Rating onChange={handleRatingChange} />
+      <Rating
+        value={rating}
+        onChange={handleRatingChange}
+        disabled={isLoading}
+      />
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
@@ -56,6 +66,7 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleCommentChange}
+        disabled={isLoading}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
