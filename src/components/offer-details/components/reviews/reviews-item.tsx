@@ -23,6 +23,7 @@ export function ReviewsItem({ review }: ReviewsItemProps) {
             width="54"
             height="54"
             alt="Reviews avatar"
+            loading="lazy"
           />
         </div>
         <span className="reviews__user-name">{user.name}</span>

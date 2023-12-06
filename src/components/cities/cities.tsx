@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { OfferCity, OfferPreview } from '../../types/offers';
 import { PlaceCard } from '../place-card/place-card';
@@ -19,13 +19,16 @@ export function Cities({ offers, city }: CitiesProps) {
   const [selectedSorting, setSelectedSorting] = useState<
     keyof typeof SortTypeMap
   >(SortTypeMap.Popular.key);
-  const sortedOffers = sortOffers[selectedSorting](offers);
+  const sortedOffers = useMemo(
+    () => sortOffers[selectedSorting](offers),
+    [offers, selectedSorting]
+  );
   const points = offers.map(({ id, location }) => ({ offerId: id, location }));
   const { name: cityName, location: cityLocation } = city;
 
-  function handleCardHover(offerId: OfferPreview['id'] | null) {
+  const handleCardHover = useCallback((offerId: OfferPreview['id'] | null) => {
     setHoveredOfferId(offerId);
-  }
+  }, []);
 
   function handleSortSelect(value: keyof typeof SortTypeMap) {
     setSelectedSorting(value);

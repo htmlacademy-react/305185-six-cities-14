@@ -70,7 +70,7 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !isValid}
         >
           Submit
         </button>
