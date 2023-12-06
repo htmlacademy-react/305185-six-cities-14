@@ -16,6 +16,12 @@ export function LoginPage() {
     dispatch(checkAuth());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (authStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Root);
+    }
+  }, [authStatus, navigate]);
+
   function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
@@ -27,14 +33,8 @@ export function LoginPage() {
     ) as HTMLInputElement;
 
     if (email?.value && password?.value) {
-      dispatch(login({ email: email.value, password: password.value })).then(
-        () => navigate(AppRoute.Root)
-      );
+      dispatch(login({ email: email.value, password: password.value }));
     }
-  }
-
-  if (authStatus === AuthorizationStatus.Auth) {
-    navigate(AppRoute.Root);
   }
 
   return (
