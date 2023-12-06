@@ -10,6 +10,8 @@ import { fetchOffers } from '../../store/api-actions/offers';
 import { OfferCity } from '../../types/offers';
 import { capitalizeFirstLetter } from '../../utils/common';
 import { Spinner } from '../../components/shared/spinner/spinner';
+import { MainPageEmpty } from './components/main-page-empty.tsx/main-page-empty';
+import classNames from 'classnames';
 
 const cities = Object.values(CityMap);
 
@@ -47,7 +49,11 @@ export function MainPage() {
   }, [cityName, navigate]);
 
   return (
-    <main className="page__main page__main--index">
+    <main
+      className={classNames('page__main page__main--index', {
+        'page__main--index-empty': !hasOffers,
+      })}
+    >
       <h1 className="visually-hidden">Cities</h1>
       <CityTabs
         cities={cities}
@@ -58,6 +64,7 @@ export function MainPage() {
       {!isLoading && hasOffers && (
         <Cities offers={offersByCity} city={activeCity} />
       )}
+      {!isLoading && !hasOffers && <MainPageEmpty cityName={cityName} />}
     </main>
   );
 }
