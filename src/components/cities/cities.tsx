@@ -6,6 +6,7 @@ import { Map } from '../map/map';
 import { OffersSorting } from '../offers-sorting/offers-sorting';
 import { SortTypeMap } from '../../const';
 import { sortOffers } from '../../utils/offers';
+import { pluralize } from '../../utils/common';
 
 type CitiesProps = {
   offers: OfferPreview[];
@@ -34,13 +35,16 @@ export function Cities({ offers, city }: CitiesProps) {
     setSelectedSorting(value);
   }
 
+  const offersCount = offers.length;
+
   return (
     <div className="cities">
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">
-            {offers.length} places to stay in {cityName}
+            {offersCount} {pluralize(offersCount, 'place')} to stay in{' '}
+            {cityName}
           </b>
           <OffersSorting
             onSelect={handleSortSelect}

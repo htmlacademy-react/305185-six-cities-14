@@ -1,16 +1,42 @@
-import { useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { checkAuth, login } from '../../store/api-actions/user';
 import { getUser } from '../../store/slices';
-import { AppRoute, AuthorizationStatus, CityMap } from '../../const';
+import {
+  AppRoute,
+  AuthorizationStatus,
+  CityMap,
+  RequestStatus,
+} from '../../const';
+import { City } from './components/city/city';
+
+const EMAIL_PATTERN =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.([0-9]{1,3}|[a-zA-Z]{2})\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]*$/;
 
 export function LoginPage() {
+  const randomCity = useMemo(
+    () =>
+      Object.values(CityMap)[
+        Math.floor(Math.random() * Object.values(CityMap).length)
+      ],
+    []
+  );
   const navigate = useNavigate();
-  const formRef = useRef<HTMLFormElement>(null);
   const dispatch = useAppDispatch();
-  const { authStatus } = useAppSelector(getUser);
+  const { authStatus, status } = useAppSelector(getUser);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const isValid = Boolean(
+    email &&
+      password &&
+      PASSWORD_PATTERN.test(password) &&
+      EMAIL_PATTERN.test(email)
+  );
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -22,19 +48,21 @@ export function LoginPage() {
     }
   }, [authStatus, navigate]);
 
+  const handleEmailChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(evt.target.value);
+  };
+
+  const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(evt.target.value);
+  };
+
   function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-
-    const email = formRef.current?.elements.namedItem(
-      'email'
-    ) as HTMLInputElement;
-    const password = formRef.current?.elements.namedItem(
-      'password'
-    ) as HTMLInputElement;
-
-    if (email?.value && password?.value) {
-      dispatch(login({ email: email.value, password: password.value }));
+    if (!isValid) {
+      return;
     }
+
+    dispatch(login({ email, password }));
   }
 
   return (
@@ -43,7 +71,6 @@ export function LoginPage() {
         <section className="login">
           <h1 className="login__title">Sign in</h1>
           <form
-            ref={formRef}
             className="login__form form"
             action="#"
             method="post"
@@ -57,6 +84,8 @@ export function LoginPage() {
                 name="email"
                 placeholder="Email"
                 required
+                value={email}
+                onChange={handleEmailChange}
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
@@ -67,23 +96,20 @@ export function LoginPage() {
                 name="password"
                 placeholder="Password"
                 required
+                value={password}
+                onChange={handlePasswordChange}
               />
             </div>
-            <button className="login__submit form__submit button" type="submit">
+            <button
+              className="login__submit form__submit button"
+              type="submit"
+              disabled={!isValid || status === RequestStatus.Pending}
+            >
               Sign in
             </button>
           </form>
         </section>
-        <section className="locations locations--login locations--current">
-          <div className="locations__item">
-            <Link
-              className="locations__item-link"
-              to={`/${CityMap.Amsterdam.name.toLowerCase()}`}
-            >
-              <span>Amsterdam</span>
-            </Link>
-          </div>
-        </section>
+        <City cityName={randomCity.name} />
       </div>
     </main>
   );

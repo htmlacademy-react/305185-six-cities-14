@@ -3,8 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 
 import { getAuthToken } from './token';
 import { toast } from 'react-toastify';
+import { API_URL } from '../const';
 
-const API_URL = import.meta.env.VITE_APP_API_URL as string;
 const REQUEST_TIMEOUT = 5000;
 const StatusCode: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,

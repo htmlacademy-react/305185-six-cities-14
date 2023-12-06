@@ -2,7 +2,7 @@ import { SortTypeMap } from '../const';
 import { OfferPreview } from '../types/offers';
 
 export function getRatingInPercent(rating: number): string {
-  return `${Math.round(rating * 20)}%`;
+  return `${Math.round(rating) * 20}%`;
 }
 
 export function sortByRating(a: OfferPreview, b: OfferPreview): number {

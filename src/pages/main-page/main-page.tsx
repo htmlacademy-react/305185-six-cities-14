@@ -28,7 +28,7 @@ export function MainPage() {
     () => offers.filter((offer) => offer.city.name === activeCity?.name),
     [offers, activeCity]
   );
-  const hasOffers = offersByCity.length;
+  const hasOffers = Boolean(offersByCity.length);
   const isLoading = status === RequestStatus.Pending;
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export function MainPage() {
   // if city name is not valid, redirect to root
   useEffect(() => {
     if (cityName && !CityMap[capitalizeFirstLetter(cityName)]) {
-      navigate(AppRoute.Root, { replace: true });
+      navigate(AppRoute.NotFound, { replace: true });
     } else {
       setActiveCity(CityMap[capitalizeFirstLetter(cityName)]);
     }
