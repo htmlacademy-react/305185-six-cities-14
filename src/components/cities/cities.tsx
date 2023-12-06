@@ -23,11 +23,11 @@ export function Cities({ offers, city }: CitiesProps) {
   const points = offers.map(({ id, location }) => ({ offerId: id, location }));
   const { name: cityName, location: cityLocation } = city;
 
-  function cardHoverHandler(offerId: OfferPreview['id'] | null) {
+  function handleCardHover(offerId: OfferPreview['id'] | null) {
     setHoveredOfferId(offerId);
   }
 
-  function onSortSelect(value: keyof typeof SortTypeMap) {
+  function handleSortSelect(value: keyof typeof SortTypeMap) {
     setSelectedSorting(value);
   }
 
@@ -40,7 +40,7 @@ export function Cities({ offers, city }: CitiesProps) {
             {offers.length} places to stay in {cityName}
           </b>
           <OffersSorting
-            onSelect={onSortSelect}
+            onSelect={handleSortSelect}
             activeValue={selectedSorting}
           />
           <div className="cities__places-list places__list tabs__content">
@@ -48,7 +48,7 @@ export function Cities({ offers, city }: CitiesProps) {
               <PlaceCard
                 key={offer.id}
                 offer={offer}
-                onCardHover={cardHoverHandler}
+                onCardHover={handleCardHover}
               />
             ))}
           </div>

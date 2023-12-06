@@ -16,7 +16,7 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
     setIsOpen((prevState) => !prevState);
   }
 
-  const onSelectHandler = useCallback(
+  const handleSelect = useCallback(
     (value: keyof typeof SortTypeMap) => {
       onSelect(value);
       onToggle();
@@ -24,7 +24,7 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
     [onSelect]
   );
 
-  const onKeyDownSelectHandler = useCallback(
+  const handleKeyDownSelect = useCallback(
     (evt: React.KeyboardEvent<HTMLSpanElement>, callback: () => void) => {
       if (evt.key === 'Enter' && isOpen) {
         callback();
@@ -33,7 +33,7 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
     [isOpen]
   );
 
-  const onKeyDownCloseHandler = useCallback(
+  const handleKeyDownClose = useCallback(
     (evt: React.KeyboardEvent<HTMLSpanElement>) => {
       if (evt.key === 'Escape' && isOpen) {
         setIsOpen(false);
@@ -61,7 +61,7 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
       className="places__sorting"
       action="#"
       method="get"
-      onKeyDown={onKeyDownCloseHandler}
+      onKeyDown={handleKeyDownClose}
     >
       <span className="places__sorting-caption">Sort by</span>{' '}
       <span className="places__sorting-type" tabIndex={0} onClick={onToggle}>
@@ -82,9 +82,9 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
               'places__option--active': key === activeValue,
             })}
             tabIndex={0}
-            onClick={() => onSelectHandler(key)}
+            onClick={() => handleSelect(key)}
             onKeyDown={(evt) =>
-              onKeyDownSelectHandler(evt, () => onSelectHandler(key))}
+              handleKeyDownSelect(evt, () => handleSelect(key))}
           >
             {label}
           </li>
