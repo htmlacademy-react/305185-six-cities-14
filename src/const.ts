@@ -1,6 +1,6 @@
 import { OfferCity } from './types/offers';
 
-export const API_URL = import.meta.env.VITE_APP_API_URL as string;
+export const API_URL = 'https://14.design.pages.academy/six-cities';
 
 export const AppRoute = {
   Root: '/',
@@ -113,5 +113,5 @@ export const SortTypeMap = {
   TopRatedFirst: {
     label: 'Top rated first',
     key: 'TopRatedFirst',
-  }
+  },
 } as const;
