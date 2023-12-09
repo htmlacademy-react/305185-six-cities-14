@@ -8,8 +8,10 @@ import { Offer } from '../../../../types/offers';
 import { getReviews } from '../../../../store/slices';
 import { RequestStatus } from '../../../../const';
 
-const MIN_COMMENT_LENGTH = 50;
-const MAX_COMMENT_LENGTH = 250;
+const COMMENT_LENGTH = {
+  Min: 50,
+  Max: 300,
+} as const;
 
 type ReviewFormProps = {
   offerId: Offer['id'];
@@ -20,8 +22,8 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const isValid =
-    comment.length >= MIN_COMMENT_LENGTH &&
-    comment.length <= MAX_COMMENT_LENGTH &&
+    comment.length >= COMMENT_LENGTH.Min &&
+    comment.length <= COMMENT_LENGTH.Max &&
     rating !== 0;
   const { status } = useAppSelector(getReviews);
   const isLoading = status === RequestStatus.Pending;
@@ -33,7 +35,7 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
     setRating(Number(e.target.value));
   }
 
-  function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
+  function handleFormSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     if (isValid) {
       const review = {
@@ -50,7 +52,7 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
   }
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -74,7 +76,7 @@ export function ReviewForm({ offerId }: ReviewFormProps) {
           <span className="reviews__star">rating</span> and describe your stay
           with at least{' '}
           <b className="reviews__text-amount">
-            {MIN_COMMENT_LENGTH} characters
+            {COMMENT_LENGTH.Min} characters
           </b>
           .
         </p>

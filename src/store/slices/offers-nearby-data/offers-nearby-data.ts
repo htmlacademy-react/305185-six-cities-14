@@ -4,6 +4,11 @@ import { OfferPreview } from '../../../types/offers';
 import { fetchOffersNearby } from '../../api-actions/offers-nearby';
 import { RequestStatus, StoreKey } from '../../../const';
 import { StoreData } from '../../../types/store';
+import {
+  addFavoriteOffer,
+  removeFavoriteOffer,
+} from '../../api-actions/favorite-offers';
+import { logout } from '../../api-actions';
 
 const initialState: StoreData<OfferPreview[]> = {
   data: [],
@@ -14,20 +19,7 @@ const initialState: StoreData<OfferPreview[]> = {
 export const offersNearbyData = createSlice({
   name: StoreKey.OffersNearby,
   initialState,
-  reducers: {
-    markAsFavoriteInOffersNearby: (state, action: PayloadAction<string>) => {
-      const offer = state.data.find(({ id }) => id === action.payload);
-      if (offer) {
-        offer.isFavorite = true;
-      }
-    },
-    unmarkAsFavoriteInOffersNearby: (state, action: PayloadAction<string>) => {
-      const offer = state.data.find(({ id }) => id === action.payload);
-      if (offer) {
-        offer.isFavorite = false;
-      }
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchOffersNearby.pending, (state) => {
@@ -45,9 +37,29 @@ export const offersNearbyData = createSlice({
       .addCase(fetchOffersNearby.rejected, (state) => {
         state.status = RequestStatus.Rejected;
         state.hasError = true;
+      })
+      .addCase(
+        addFavoriteOffer.fulfilled,
+        (state, action: PayloadAction<OfferPreview>) => {
+          const offer = state.data.find(({ id }) => id === action.payload.id);
+          if (offer) {
+            offer.isFavorite = true;
+          }
+        }
+      )
+      .addCase(
+        removeFavoriteOffer.fulfilled,
+        (state, action: PayloadAction<OfferPreview>) => {
+          const offer = state.data.find(({ id }) => id === action.payload.id);
+          if (offer) {
+            offer.isFavorite = false;
+          }
+        }
+      )
+      .addCase(logout.fulfilled, (state) => {
+        state.data.map((offer) => {
+          offer.isFavorite = false;
+        });
       });
   },
 });
-
-export const { markAsFavoriteInOffersNearby, unmarkAsFavoriteInOffersNearby } =
-  offersNearbyData.actions;

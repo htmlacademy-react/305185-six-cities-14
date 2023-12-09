@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Offer } from '../../../types/offers';
+import { Offer, OfferPreview } from '../../../types/offers';
 import { fetchOffer } from '../../api-actions/offer';
 import { RequestStatus, StoreKey } from '../../../const';
 import { StoreData } from '../../../types/store';
+import {
+  addFavoriteOffer,
+  removeFavoriteOffer,
+} from '../../api-actions/favorite-offers';
+import { logout } from '../../api-actions';
 
 const initialState: StoreData<Offer | null> = {
   data: null,
@@ -14,20 +19,7 @@ const initialState: StoreData<Offer | null> = {
 export const offerData = createSlice({
   name: StoreKey.Offer,
   initialState,
-  reducers: {
-    markAsFavoriteInOffer: (state, action) => {
-      const offer = state.data;
-      if (offer && offer.id === action.payload) {
-        offer.isFavorite = true;
-      }
-    },
-    unmarkAsFavoriteInOffer: (state, action) => {
-      const offer = state.data;
-      if (offer && offer.id === action.payload) {
-        offer.isFavorite = false;
-      }
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchOffer.pending, (state) => {
@@ -42,9 +34,29 @@ export const offerData = createSlice({
       .addCase(fetchOffer.rejected, (state) => {
         state.status = RequestStatus.Rejected;
         state.hasError = true;
+      })
+      .addCase(
+        addFavoriteOffer.fulfilled,
+        (state, action: PayloadAction<OfferPreview>) => {
+          const offer = state.data;
+          if (offer && offer.id === action.payload.id) {
+            offer.isFavorite = true;
+          }
+        }
+      )
+      .addCase(
+        removeFavoriteOffer.fulfilled,
+        (state, action: PayloadAction<OfferPreview>) => {
+          const offer = state.data;
+          if (offer && offer.id === action.payload.id) {
+            offer.isFavorite = false;
+          }
+        }
+      )
+      .addCase(logout.fulfilled, (state) => {
+        if (state.data) {
+          state.data.isFavorite = false;
+        }
       });
   },
 });
-
-export const { markAsFavoriteInOffer, unmarkAsFavoriteInOffer } =
-  offerData.actions;
