@@ -34,8 +34,11 @@ export const AuthorizationStatus = {
   Unknown: 'UNKNOWN',
 } as const;
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-export const URL_MARKER_CURRENT = 'img/pin-active.svg';
+export const MAP_MARKER_URL = {
+  Default: 'img/pin.svg',
+  Current: 'img/pin-active.svg',
+} as const;
+
 export const MAX_NEARBY_OFFERS = 3;
 export const MAX_REVIEWS = 10;
 

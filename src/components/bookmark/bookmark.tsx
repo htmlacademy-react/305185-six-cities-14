@@ -34,7 +34,7 @@ export function Bookmark({
   const dispatch = useAppDispatch();
   const { authStatus } = useAppSelector(getUser);
 
-  const handleClick = () => {
+  const handleButtonClick = () => {
     if (authStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.Login);
     }
@@ -52,7 +52,7 @@ export function Bookmark({
         [`${block}__bookmark-button--active`]: isActive,
       })}
       type="button"
-      onClick={handleClick}
+      onClick={handleButtonClick}
     >
       <svg className={`${block}__bookmark-icon`} {...ICON_SIZE_MAP[size]}>
         <use xlinkHref="#icon-bookmark"></use>

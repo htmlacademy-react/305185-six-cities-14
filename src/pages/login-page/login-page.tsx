@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { checkAuth, login } from '../../store/api-actions/user';
+import { login } from '../../store/api-actions/user';
 import { getUser } from '../../store/slices';
 import {
   AppRoute,
@@ -39,10 +39,6 @@ export function LoginPage() {
   );
 
   useEffect(() => {
-    dispatch(checkAuth());
-  }, [dispatch]);
-
-  useEffect(() => {
     if (authStatus === AuthorizationStatus.Auth) {
       navigate(AppRoute.Root);
     }
@@ -56,7 +52,7 @@ export function LoginPage() {
     setPassword(evt.target.value);
   };
 
-  function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
+  function handleFormSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     if (!isValid) {
       return;
@@ -74,7 +70,7 @@ export function LoginPage() {
             className="login__form form"
             action="#"
             method="post"
-            onSubmit={handleSubmit}
+            onSubmit={handleFormSubmit}
           >
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>

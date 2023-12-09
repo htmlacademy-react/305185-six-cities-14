@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import {
@@ -10,8 +11,16 @@ import {
 import { PrivateRoute } from './private-route';
 import { AppRoute } from '../const';
 import { DefaultLayout, LoginLayout } from '../layout/';
+import { useAppDispatch } from '../hooks/store';
+import { checkAuth } from '../store/api-actions';
 
 export function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>

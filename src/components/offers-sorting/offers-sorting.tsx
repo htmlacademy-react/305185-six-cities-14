@@ -16,7 +16,7 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
     setIsOpen((prevState) => !prevState);
   }
 
-  const handleSelect = useCallback(
+  const handleCitySelect = useCallback(
     (value: keyof typeof SortTypeMap) => {
       onSelect(value);
       onToggle();
@@ -24,7 +24,7 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
     [onSelect]
   );
 
-  const handleKeyDownSelect = useCallback(
+  const handleSortKeyDownSelect = useCallback(
     (evt: React.KeyboardEvent<HTMLSpanElement>, callback: () => void) => {
       if (evt.key === 'Enter' && isOpen) {
         callback();
@@ -33,7 +33,7 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
     [isOpen]
   );
 
-  const handleKeyDownClose = useCallback(
+  const handleSortKeyDownClose = useCallback(
     (evt: React.KeyboardEvent<HTMLSpanElement>) => {
       if (evt.key === 'Escape' && isOpen) {
         setIsOpen(false);
@@ -42,16 +42,16 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
     [isOpen]
   );
 
-  function handleClickOutside(evt: MouseEvent) {
+  function handleSortClickOutside(evt: MouseEvent) {
     if (ref.current && !ref.current.contains(evt.target as Node)) {
       setIsOpen(false);
     }
   }
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleSortClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleSortClickOutside);
     };
   }, []);
 
@@ -61,7 +61,7 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
       className="places__sorting"
       action="#"
       method="get"
-      onKeyDown={handleKeyDownClose}
+      onKeyDown={handleSortKeyDownClose}
     >
       <span className="places__sorting-caption">Sort by</span>{' '}
       <span className="places__sorting-type" tabIndex={0} onClick={onToggle}>
@@ -82,9 +82,9 @@ export function OffersSorting({ activeValue, onSelect }: OffersSortingProps) {
               'places__option--active': key === activeValue,
             })}
             tabIndex={0}
-            onClick={() => handleSelect(key)}
+            onClick={() => handleCitySelect(key)}
             onKeyDown={(evt) =>
-              handleKeyDownSelect(evt, () => handleSelect(key))}
+              handleSortKeyDownSelect(evt, () => handleCitySelect(key))}
           >
             {label}
           </li>

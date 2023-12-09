@@ -16,14 +16,7 @@ const getOffersByCityKey = (favOffers: OfferPreview[]) => {
     offersByCityKey[city.name].push(favorite);
   });
 
-  // and sorts them alphabetically
-  const sortedKeys = Object.keys(offersByCityKey).sort();
-  const sortedOffersByCityKey: Record<string, OfferPreview[]> = {};
-  sortedKeys.forEach((key) => {
-    sortedOffersByCityKey[key] = offersByCityKey[key];
-  });
-
-  return sortedOffersByCityKey;
+  return offersByCityKey;
 };
 
 export function FavoritesPage() {
